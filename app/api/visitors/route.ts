@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
     // Atomically increment and get new value
     count = await redis(["INCR", "visitor_count"]);
   } else {
-    count = await redis(["GET", "visitor_count"]);
-    count = parseInt(count) || 1;
+    const raw = await redis(["GET", "visitor_count"]);
+    count = parseInt(String(raw)) || 1;
   }
 
   const res = NextResponse.json({ count });
