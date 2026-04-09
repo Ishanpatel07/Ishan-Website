@@ -1,7 +1,7 @@
 "use client";
 
 import Marquee from "react-fast-marquee";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 /* ============================================================
    DATA
@@ -152,6 +152,81 @@ function SkillRow({ label }: { label: string }) {
 }
 
 /* ============================================================
+   ANIMATED NAME
+   ============================================================ */
+// Types out a wrong name, backspaces, types the right name, then goes rainbow star
+const WRONG = "ISHEN PATIL";
+const RIGHT = "ISHAN PATEL";
+
+function AnimatedName() {
+  const [displayed, setDisplayed] = useState("");
+  const [starMode, setStarMode] = useState(false);
+  const [done, setDone] = useState(false);
+  const textRef = useRef("");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    function delay(ms: number) {
+      return new Promise<void>((res) => setTimeout(res, ms));
+    }
+
+    async function run() {
+      // Type wrong name
+      for (let i = 1; i <= WRONG.length; i++) {
+        if (cancelled) return;
+        textRef.current = WRONG.slice(0, i);
+        setDisplayed(textRef.current);
+        await delay(100);
+      }
+
+      await delay(600);
+
+      // Backspace
+      while (textRef.current.length > 0) {
+        if (cancelled) return;
+        textRef.current = textRef.current.slice(0, -1);
+        setDisplayed(textRef.current);
+        await delay(60);
+      }
+
+      // Type right name
+      for (let i = 1; i <= RIGHT.length; i++) {
+        if (cancelled) return;
+        textRef.current = RIGHT.slice(0, i);
+        setDisplayed(textRef.current);
+        await delay(100);
+      }
+
+      await delay(200);
+      if (!cancelled) {
+        setDone(true);
+        setStarMode(true);
+      }
+    }
+
+    run();
+    return () => { cancelled = true; };
+  }, []);
+
+  return (
+    <h1
+      className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
+      style={{
+        fontFamily: '"Arial Black", Impact, sans-serif',
+        textShadow: starMode ? undefined : "3px 3px 0 #808080",
+        animation: starMode ? "mario-star 0.3s linear infinite" : undefined,
+        minWidth: "14ch",
+        display: "inline-block",
+      }}
+    >
+      {displayed}
+      {!done && <span className="text-blink">|</span>}
+    </h1>
+  );
+}
+
+/* ============================================================
    PAGE
    ============================================================ */
 export default function Home() {
@@ -272,15 +347,7 @@ export default function Home() {
               <TitleBar icon="🖥️">ISHAN_PATEL.EXE — CYBERSECURITY PORTFOLIO v1.0</TitleBar>
               <div className="win95-content-yellow flex flex-col gap-2">
                 <div className="text-center">
-                  <h1
-                    className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
-                    style={{
-                      fontFamily: '"Arial Black", Impact, sans-serif',
-                      textShadow: "3px 3px 0 #808080",
-                    }}
-                  >
-                    ISHAN PATEL
-                  </h1>
+                  <AnimatedName />
                 </div>
 
                 <div className="flex gap-2 flex-wrap">
