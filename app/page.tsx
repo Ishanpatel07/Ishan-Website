@@ -142,7 +142,7 @@ function HrGroove() {
 function SkillRow({ label }: { label: string }) {
   return (
     <div
-      className="flex items-center gap-2 border-b border-[#808080] py-1 px-2 text-[13px]"
+      className="flex items-center gap-2 border-b border-[#808080] py-1.5 px-3 text-[14px]"
       style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}
     >
       <span className="text-[#00aa00] font-black mr-1">►</span>
@@ -234,7 +234,7 @@ export default function Home() {
         className="bevel-out border-b-2 border-[#000000]"
         style={{ background: "#c0c0c0" }}
       >
-        <div className="max-w-5xl mx-auto flex items-center gap-1 px-4 py-2 flex-wrap">
+        <div className="max-w-7xl mx-auto flex items-center gap-1 px-6 py-2 flex-wrap">
           <a
             href="/"
             className="font-black text-[13px] uppercase mr-4"
@@ -261,7 +261,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           HERO SECTION
           ══════════════════════════════════════════════════════ */}
-      <section id="about" className="max-w-5xl mx-auto px-4 py-6">
+      <section id="about" className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row gap-4 items-start">
 
           {/* Left column: bio card + readme */}
@@ -273,7 +273,7 @@ export default function Home() {
               <div className="win95-content-yellow flex flex-col gap-2">
                 <div className="text-center">
                   <h1
-                    className="text-4xl leading-none uppercase tracking-tight whitespace-nowrap"
+                    className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
                     style={{
                       fontFamily: '"Arial Black", Impact, sans-serif',
                       textShadow: "3px 3px 0 #808080",
@@ -309,7 +309,7 @@ export default function Home() {
                   </span>
                 </div>
 
-                <p className="text-[13px] leading-5">
+                <p className="text-[15px] leading-6">
                   Freshman at <strong>Georgia State University</strong> majoring in Computer
                   Information Systems with a <strong>Cybersecurity concentration</strong> and
                   a minor in Computer Science — working toward transferring to{" "}
@@ -322,7 +322,7 @@ export default function Home() {
                   <strong>sales engineering</strong>.
                 </p>
 
-                <p className="text-[12px] leading-5 font-mono" style={{ color: "#808080" }}>
+                <p className="text-[13px] leading-5 font-mono" style={{ color: "#808080" }}>
                   <span className="text-[#00aa00] font-black">C:\&gt;</span>{" "}
                   Currently building: this website, a cybersecurity homelab, and the confidence
                   to cold email people way above my level.
@@ -467,7 +467,7 @@ LICENSE: Open to opportunities.`}</pre>
         className="border-y-2 border-[#000000]"
         style={{ background: "#000000" }}
       >
-        <div className="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center gap-4 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-wrap items-center gap-4 overflow-x-auto">
           {[
             { label: "FIREWALL", value: "ACTIVE",    color: "#00ff00" },
             { label: "ENCRYPTION", value: "AES-256",  color: "#00ff00" },
@@ -501,11 +501,11 @@ LICENSE: Open to opportunities.`}</pre>
       {/* ══════════════════════════════════════════════════════
           SKILLS
           ══════════════════════════════════════════════════════ */}
-      <section id="skills" className="max-w-5xl mx-auto px-4 py-6">
+      <section id="skills" className="max-w-7xl mx-auto px-6 py-8">
 
         <div className="flex items-center gap-3 mb-3">
           <h2
-            className="text-2xl uppercase tracking-tight"
+            className="text-3xl uppercase tracking-tight"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
           >
             SKILLS &amp; TOOLS
@@ -513,7 +513,7 @@ LICENSE: Open to opportunities.`}</pre>
           <Badge label="UPDATED" pulse />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {Object.entries(skills).map(([category, items]) => (
             <Win95Card key={category} title={category} icon="🔧">
               <div className="p-0 -m-4">
@@ -566,10 +566,10 @@ LICENSE: Open to opportunities.`}</pre>
       {/* ══════════════════════════════════════════════════════
           PROJECTS
           ══════════════════════════════════════════════════════ */}
-      <section id="projects" className="max-w-5xl mx-auto px-4 py-6">
+      <section id="projects" className="max-w-7xl mx-auto px-6 py-8">
         <div className="flex items-center gap-3 mb-3">
           <h2
-            className="text-2xl uppercase tracking-tight"
+            className="text-3xl uppercase tracking-tight"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
           >
             PROJECTS
@@ -607,7 +607,7 @@ LICENSE: Open to opportunities.`}</pre>
                     [{proj.tag}]
                   </span>
                 </div>
-                <p className="text-[13px] leading-5">{proj.desc}</p>
+                <p className="text-[14px] leading-6">{proj.desc}</p>
               </div>
             </div>
           ))}
@@ -619,11 +619,11 @@ LICENSE: Open to opportunities.`}</pre>
       {/* ══════════════════════════════════════════════════════
           EXPERIENCE
           ══════════════════════════════════════════════════════ */}
-      <section id="experience" className="max-w-5xl mx-auto px-4 py-6">
+      <section id="experience" className="max-w-7xl mx-auto px-6 py-8">
 
         <div className="flex items-center gap-3 mb-3">
           <h2
-            className="text-2xl uppercase tracking-tight"
+            className="text-3xl uppercase tracking-tight"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
           >
             EXPERIENCE
@@ -671,7 +671,7 @@ LICENSE: Open to opportunities.`}</pre>
                   )}
                   <ul className="list-none p-0 m-0">
                     {exp.bullets.map((b, j) => (
-                      <li key={j} className="text-[13px] leading-5 mb-2 flex gap-2">
+                      <li key={j} className="text-[14px] leading-6 mb-2 flex gap-2">
                         <span className="text-[#00aa00] font-black mt-0.5">►</span>
                         <span>{b}</span>
                       </li>
@@ -724,7 +724,7 @@ LICENSE: Open to opportunities.`}</pre>
                 TARGET ROLE:
               </div>
               <div
-                className="text-rainbow text-xl font-black uppercase mb-3 leading-tight"
+                className="text-rainbow text-2xl font-black uppercase mb-3 leading-tight"
                 style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
               >
                 SALES ENGINEER — CYBERSECURITY
@@ -789,7 +789,7 @@ LICENSE: Open to opportunities.`}</pre>
 
       <section
         id="contact"
-        className="max-w-5xl mx-auto px-4 py-6"
+        className="max-w-7xl mx-auto px-6 py-8"
       >
         <div className="win95-card">
           <TitleBar icon="📧">CONTACT — OPEN FOR OPPORTUNITIES</TitleBar>
@@ -797,7 +797,7 @@ LICENSE: Open to opportunities.`}</pre>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h2
-                  className="text-xl uppercase mb-2"
+                  className="text-2xl uppercase mb-2"
                   style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
                 >
                   LET&apos;S CONNECT
@@ -894,7 +894,7 @@ LICENSE: Open to opportunities.`}</pre>
         className="border-t-2 border-[#000000]"
         style={{ background: "#000080" }}
       >
-        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-2">
           <span
             className="text-white font-black uppercase text-[12px]"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
