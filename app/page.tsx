@@ -264,17 +264,28 @@ export default function Home() {
   const [repoCount, setRepoCount] = useState<string | null>(null);
 
   useEffect(() => {
-    // Live visitor counter
-    fetch("https://api.counterapi.dev/v1/ishanpatel-portfolio/visits/up")
+    // Only increment once per browser — use a cookie to track
+    const hasVisited = document.cookie.split(";").some((c) => c.trim().startsWith("visited="));
+    const endpoint = hasVisited
+      ? "https://api.counterapi.dev/v1/ishanpatel-portfolio/visits"
+      : "https://api.counterapi.dev/v1/ishanpatel-portfolio/visits/up";
+
+    if (!hasVisited) {
+      // Set cookie that expires in 100 years
+      const expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 100);
+      document.cookie = `visited=1; expires=${expires.toUTCString()}; path=/`;
+    }
+
+    fetch(endpoint)
       .then((r) => r.json())
       .then((data) => {
-        // counterapi.dev returns { count: N } — use it, fall back to other field names
         const n = typeof data?.count === "number" ? data.count
                 : typeof data?.value === "number" ? data.value
                 : typeof data?.visits === "number" ? data.visits
                 : null;
         if (n !== null) {
-          const display = Math.max(n, 1); // never show 000,000
+          const display = Math.max(n, 1);
           const s = display.toString().padStart(6, "0");
           setVisitorCount(s.slice(0, 3) + "," + s.slice(3));
         } else {
