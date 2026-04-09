@@ -162,7 +162,20 @@ function AnimatedName() {
   const [displayed, setDisplayed] = useState("");
   const [starMode, setStarMode] = useState(false);
   const [done, setDone] = useState(false);
+  const [muted, setMuted] = useState(false);
   const textRef = useRef("");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio("/star-theme.mp3");
+    audioRef.current.loop = true;
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = muted;
+    }
+  }, [muted]);
 
   useEffect(() => {
     let cancelled = false;
@@ -172,7 +185,6 @@ function AnimatedName() {
     }
 
     async function run() {
-      // Type wrong name
       for (let i = 1; i <= WRONG.length; i++) {
         if (cancelled) return;
         textRef.current = WRONG.slice(0, i);
@@ -182,7 +194,6 @@ function AnimatedName() {
 
       await delay(600);
 
-      // Backspace
       while (textRef.current.length > 0) {
         if (cancelled) return;
         textRef.current = textRef.current.slice(0, -1);
@@ -190,7 +201,6 @@ function AnimatedName() {
         await delay(60);
       }
 
-      // Type right name
       for (let i = 1; i <= RIGHT.length; i++) {
         if (cancelled) return;
         textRef.current = RIGHT.slice(0, i);
@@ -202,6 +212,7 @@ function AnimatedName() {
       if (!cancelled) {
         setDone(true);
         setStarMode(true);
+        audioRef.current?.play().catch(() => {});
       }
     }
 
@@ -210,19 +221,30 @@ function AnimatedName() {
   }, []);
 
   return (
-    <h1
-      className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
-      style={{
-        fontFamily: '"Arial Black", Impact, sans-serif',
-        textShadow: starMode ? undefined : "3px 3px 0 #808080",
-        animation: starMode ? "mario-star 0.3s linear infinite" : undefined,
-        minWidth: "14ch",
-        display: "inline-block",
-      }}
-    >
-      {displayed}
-      {!done && <span className="text-blink">|</span>}
-    </h1>
+    <div className="flex flex-col items-center gap-2">
+      <h1
+        className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
+        style={{
+          fontFamily: '"Arial Black", Impact, sans-serif',
+          textShadow: starMode ? undefined : "3px 3px 0 #808080",
+          animation: starMode ? "mario-star 0.3s linear infinite" : undefined,
+          minWidth: "14ch",
+          display: "inline-block",
+        }}
+      >
+        {displayed}
+        {!done && <span className="text-blink">|</span>}
+      </h1>
+      {starMode && (
+        <button
+          onClick={() => setMuted((m) => !m)}
+          className="btn-90s text-[11px] px-2 py-0.5"
+          style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
+        >
+          {muted ? "🔇 UNMUTE" : "🔊 MUTE"}
+        </button>
+      )}
+    </div>
   );
 }
 
