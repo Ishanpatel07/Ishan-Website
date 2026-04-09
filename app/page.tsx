@@ -253,7 +253,7 @@ export default function Home() {
             </a>
           ))}
           <div className="ml-auto">
-            <Badge label="CREATING" pulse />
+            <Badge label="HACKING" pulse />
           </div>
         </div>
       </nav>
