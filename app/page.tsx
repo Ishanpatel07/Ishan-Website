@@ -165,10 +165,28 @@ function AnimatedName() {
   const [muted, setMuted] = useState(false);
   const textRef = useRef("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const pendingPlay = useRef(false);
 
   useEffect(() => {
     audioRef.current = new Audio("/star-theme.mp3");
     audioRef.current.loop = true;
+
+    // When user interacts with the page, play if we're waiting on it
+    function tryPlay() {
+      if (pendingPlay.current && audioRef.current) {
+        audioRef.current.play().catch(() => {});
+        pendingPlay.current = false;
+      }
+    }
+    window.addEventListener("click", tryPlay, { once: false });
+    window.addEventListener("keydown", tryPlay, { once: false });
+    window.addEventListener("touchstart", tryPlay, { once: false });
+
+    return () => {
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
+    };
   }, []);
 
   useEffect(() => {
@@ -212,7 +230,14 @@ function AnimatedName() {
       if (!cancelled) {
         setDone(true);
         setStarMode(true);
-        audioRef.current?.play().catch(() => {});
+        // Try playing immediately — if browser blocks it, mark pending
+        // so the next user interaction triggers it
+        const playPromise = audioRef.current?.play();
+        if (playPromise) {
+          playPromise.catch(() => {
+            pendingPlay.current = true;
+          });
+        }
       }
     }
 
