@@ -163,37 +163,9 @@ function AnimatedName() {
   const [starMode, setStarMode] = useState(false);
   const [done, setDone] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const textRef = useRef("");
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const pendingPlay = useRef(false);
-
-  useEffect(() => {
-    audioRef.current = new Audio("/star-theme.mp3");
-    audioRef.current.loop = true;
-
-    // When user interacts with the page, play if we're waiting on it
-    function tryPlay() {
-      if (pendingPlay.current && audioRef.current) {
-        audioRef.current.play().catch(() => {});
-        pendingPlay.current = false;
-      }
-    }
-    window.addEventListener("click", tryPlay, { once: false });
-    window.addEventListener("keydown", tryPlay, { once: false });
-    window.addEventListener("touchstart", tryPlay, { once: false });
-
-    return () => {
-      window.removeEventListener("click", tryPlay);
-      window.removeEventListener("keydown", tryPlay);
-      window.removeEventListener("touchstart", tryPlay);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.muted = muted;
-    }
-  }, [muted]);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -230,13 +202,12 @@ function AnimatedName() {
       if (!cancelled) {
         setDone(true);
         setStarMode(true);
-        // Try playing immediately — if browser blocks it, mark pending
-        // so the next user interaction triggers it
-        const playPromise = audioRef.current?.play();
-        if (playPromise) {
-          playPromise.catch(() => {
-            pendingPlay.current = true;
-          });
+        if (audioRef.current) {
+          audioRef.current.play()
+            .then(() => setPlaying(true))
+            .catch(() => {
+              // autoplay blocked — user needs to click play button
+            });
         }
       }
     }
@@ -245,8 +216,20 @@ function AnimatedName() {
     return () => { cancelled = true; };
   }, []);
 
+  function handleMute() {
+    if (!audioRef.current) return;
+    if (!playing) {
+      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+    } else {
+      const next = !muted;
+      audioRef.current.muted = next;
+      setMuted(next);
+    }
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
+      <audio ref={audioRef} src="/star-theme.mp3" loop />
       <h1
         className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
         style={{
@@ -262,11 +245,11 @@ function AnimatedName() {
       </h1>
       {starMode && (
         <button
-          onClick={() => setMuted((m) => !m)}
+          onClick={handleMute}
           className="btn-90s text-[11px] px-2 py-0.5"
           style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
         >
-          {muted ? "🔇 UNMUTE" : "🔊 MUTE"}
+          {!playing ? "▶ PLAY MUSIC" : muted ? "🔇 UNMUTE" : "🔊 MUTE"}
         </button>
       )}
     </div>
