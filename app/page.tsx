@@ -65,7 +65,7 @@ const projects = [
     tag: "SHIPPED" as const,
   },
   {
-    name: "PawsomePupStore",
+    name: "DropCart",
     type: "E-Commerce",
     desc: "Built and launched a Shopify dropshipping store from scratch. Handled sourcing, fulfillment, marketing, and support. Hit profitability in 60 days.",
     tag: "SHIPPED" as const,
