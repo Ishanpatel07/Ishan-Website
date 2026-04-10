@@ -240,6 +240,66 @@ function useSecretFooter() {
   return { show, click, dismiss: () => setShow(false) };
 }
 
+// 4. Firewall breach
+function useFirewallBreach() {
+  const [breached, setBreached] = useState(false);
+  function trigger() {
+    setBreached(true);
+    setTimeout(() => setBreached(false), 3000);
+  }
+  return { breached, trigger };
+}
+
+// 5. Matrix rain
+function MatrixRain({ onDismiss }: { onDismiss: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const cols = Math.floor(canvas.width / 16);
+    const drops: number[] = Array(cols).fill(1);
+    const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789ABCDEF";
+    const interval = setInterval(() => {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff41";
+      ctx.font = "14px monospace";
+      drops.forEach((y, x) => {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, x * 16, y * 16);
+        if (y * 16 > canvas.height && Math.random() > 0.975) drops[x] = 0;
+        drops[x]++;
+      });
+    }, 40);
+    return () => clearInterval(interval);
+  }, []);
+  return (
+    <div className="fixed inset-0 z-[9998]" onClick={onDismiss} style={{ cursor: "pointer" }}>
+      <canvas ref={canvasRef} className="w-full h-full" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#00ff41" }}>
+          <div className="text-4xl font-black mb-4" style={{ textShadow: "0 0 20px #00ff41" }}>FOLLOW THE WHITE RABBIT</div>
+          <div className="text-sm opacity-70">click anywhere to exit</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function useMatrix() {
+  const [show, setShow] = useState(false);
+  const clicks = useRef(0);
+  function click() {
+    clicks.current++;
+    if (clicks.current >= 3) { clicks.current = 0; setShow(true); }
+  }
+  return { show, click, dismiss: () => setShow(false) };
+}
+
 /* ============================================================
    ANIMATED NAME
    ============================================================ */
@@ -339,6 +399,51 @@ function AnimatedName() {
 }
 
 /* ============================================================
+   PROCESS ROW — with vim.exe tooltip + click eggs
+   ============================================================ */
+const VIM_MSGS = [
+  "please. someone. help me close this.",
+  ":q! isn't working either.",
+  "i've been in here since 2019.",
+  "send help. or pizza.",
+  "ESC ESC ESC ESC ESC...",
+];
+
+function ProcessRow({ p, i }: { p: { name: string; status: string; color: string }; i: number }) {
+  const [hovered, setHovered] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const [msgIdx] = useState(() => Math.floor(Math.random() * VIM_MSGS.length));
+
+  return (
+    <div
+      className="flex items-center px-2 py-1 border-b border-[#808080] text-[11px] font-mono relative"
+      style={{ background: i % 2 === 0 ? "#ffffff" : "#e8e8e8" }}
+      onMouseEnter={() => p.name === "vim.exe" && setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onClick={() => {
+        if (p.name === "vim.exe") {
+          setClicked(true);
+          setTimeout(() => setClicked(false), 1200);
+        }
+      }}
+    >
+      <span className="flex-1 truncate">{p.name}</span>
+      <span className="w-28 text-right font-black" style={{ color: p.color, fontFamily: '"Arial Black", Impact, sans-serif', fontSize: "10px" }}>
+        {clicked ? "STILL OPEN" : p.status}
+      </span>
+      {hovered && p.name === "vim.exe" && (
+        <div
+          className="absolute bottom-full left-0 z-20 text-[10px] font-mono text-white px-2 py-1 whitespace-nowrap pointer-events-none"
+          style={{ background: "#000080", border: "1px solid #ffffff", marginBottom: "2px" }}
+        >
+          {VIM_MSGS[msgIdx]}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
    PAGE
    ============================================================ */
 export default function Home() {
@@ -347,6 +452,8 @@ export default function Home() {
   const bsod = useBSOD();
   const counterHack = useCounterHack();
   const secretFooter = useSecretFooter();
+  const firewall = useFirewallBreach();
+  const matrix = useMatrix();
   const [hireMeText, setHireMeText] = useState("► HIRE ME");
 
   useEffect(() => {
@@ -434,7 +541,7 @@ export default function Home() {
             </a>
           ))}
           <div className="ml-auto">
-            <Badge label="HACKING" pulse />
+            <span onClick={matrix.click}><Badge label="HACKING" pulse /></span>
           </div>
         </div>
       </nav>
@@ -606,24 +713,7 @@ LICENSE: Open to opportunities.`}</pre>
                   <span className="w-28 text-right">STATUS</span>
                 </div>
                 {processes.map((p, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center px-2 py-1 border-b border-[#808080] text-[11px] font-mono"
-                    style={{ background: i % 2 === 0 ? "#ffffff" : "#e8e8e8" }}
-                  >
-                    <span className="flex-1 truncate relative group">
-                      {p.name}
-                      {p.name === "vim.exe" && (
-                        <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10 text-[10px] font-mono text-white px-2 py-1 whitespace-nowrap pointer-events-none"
-                          style={{ background: "#000080", border: "1px solid #ffffff" }}>
-                          please. someone. help me close this.
-                        </span>
-                      )}
-                    </span>
-                    <span className="w-28 text-right font-black" style={{ color: p.color, fontFamily: '"Arial Black", Impact, sans-serif', fontSize: "10px" }}>
-                      {p.status}
-                    </span>
-                  </div>
+                  <ProcessRow key={i} p={p} i={i} />
                 ))}
               </div>
             </div>
@@ -659,17 +749,20 @@ LICENSE: Open to opportunities.`}</pre>
       >
         <div className="max-w-7xl mx-auto px-6 py-2 flex flex-wrap items-center gap-4 overflow-x-auto">
           {[
-            { label: "FIREWALL", value: "ACTIVE",    color: "#00ff00" },
+            { label: "FIREWALL", value: firewall.breached ? "BREACHED" : "ACTIVE", color: firewall.breached ? "#ff0000" : "#00ff00", clickable: true },
             { label: "ENCRYPTION", value: "AES-256",  color: "#00ff00" },
-            { label: "THREAT LEVEL", value: "LOW",    color: "#00ff00" },
+            { label: "THREAT LEVEL", value: firewall.breached ? "CRITICAL" : "LOW", color: firewall.breached ? "#ff0000" : "#00ff00" },
             { label: "VPN",        value: "ENABLED",  color: "#00ff00" },
             { label: "IDS",        value: "RUNNING",  color: "#00ff00" },
             { label: "AUTH",       value: "2FA ON",   color: "#ffff00" },
           ].map((item) => (
-            <div key={item.label} className="flex items-center gap-1 shrink-0">
-              <span
-                className="text-[#808080] font-mono text-[11px] uppercase"
-              >
+            <div
+              key={item.label}
+              className="flex items-center gap-1 shrink-0"
+              onClick={"clickable" in item && item.clickable ? firewall.trigger : undefined}
+              style={"clickable" in item && item.clickable ? { cursor: "pointer" } : undefined}
+            >
+              <span className="text-[#808080] font-mono text-[11px] uppercase">
                 {item.label}:
               </span>
               <span
@@ -1095,6 +1188,9 @@ LICENSE: Open to opportunities.`}</pre>
 
       {/* Easter egg: BSOD */}
       {bsod.show && <BSOD onDismiss={bsod.dismiss} />}
+
+      {/* Easter egg: Matrix rain */}
+      {matrix.show && <MatrixRain onDismiss={matrix.dismiss} />}
 
       {/* Easter egg: counter hack popup */}
       {counterHack.show && (
