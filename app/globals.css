@@ -233,6 +233,24 @@ a:active  { color: #ff0000; }
 .btn-90s-blue:hover  { background: #2222ff; color: #ffffff; }
 .btn-90s-blue:active { border-color: #000080 #5555ff #5555ff #000080; color: #ffffff; }
 
+/* Footer secret easter egg — subtle glitch flicker */
+@keyframes footer-glitch {
+  0%, 90%, 100% { color: #ffffff; text-shadow: none; }
+  92%  { color: #00ffff; text-shadow: -2px 0 #ff00ff; }
+  94%  { color: #ffffff; text-shadow: none; }
+  96%  { color: #ffff00; text-shadow: 2px 0 #00ffff; }
+  98%  { color: #ffffff; text-shadow: none; }
+}
+
+.footer-secret {
+  color: #ffffff;
+  animation: footer-glitch 4s infinite;
+}
+.footer-secret:hover {
+  color: #ffff00;
+  text-shadow: 0 0 8px #ffff00;
+}
+
 /* Text selection */
 ::selection { background: #000080; color: #ffffff; }
 

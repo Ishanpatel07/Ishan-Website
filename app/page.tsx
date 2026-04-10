@@ -156,15 +156,20 @@ function SkillRow({ label }: { label: string }) {
    ============================================================ */
 
 // 1. BSOD on Konami code
-const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","KeyB","KeyA"];
 
 function useBSOD() {
   const [show, setShow] = useState(false);
   const seq = useRef<string[]>([]);
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      seq.current = [...seq.current, e.key].slice(-10);
-      if (seq.current.join(",") === KONAMI.join(",")) setShow(true);
+      // Use e.code for letter keys (layout-independent), e.key for arrows
+      const key = e.code.startsWith("Key") ? e.code : e.key;
+      seq.current = [...seq.current, key].slice(-10);
+      if (seq.current.join(",") === KONAMI.join(",")) {
+        seq.current = [];
+        setShow(true);
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -497,17 +502,18 @@ export default function Home() {
                 </p>
 
                 <div className="flex gap-2 flex-wrap">
-                  <a
-                    href="#contact"
+                  <button
                     className="btn-90s btn-90s-blue"
-                    style={{ textDecoration: "none" }}
                     onClick={() => {
                       setHireMeText("YOU SURE? (Y/N)");
-                      setTimeout(() => setHireMeText("► HIRE ME"), 1500);
+                      setTimeout(() => {
+                        setHireMeText("► HIRE ME");
+                        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                      }, 1000);
                     }}
                   >
                     {hireMeText}
-                  </a>
+                  </button>
                   <a
                     href="mailto:Ishan.patel2807@gmail.com"
                     className="btn-90s"
@@ -605,10 +611,15 @@ LICENSE: Open to opportunities.`}</pre>
                     className="flex items-center px-2 py-1 border-b border-[#808080] text-[11px] font-mono"
                     style={{ background: i % 2 === 0 ? "#ffffff" : "#e8e8e8" }}
                   >
-                    <span
-                      className="flex-1 truncate"
-                      title={p.name === "vim.exe" ? "please. someone. help me close this." : undefined}
-                    >{p.name}</span>
+                    <span className="flex-1 truncate relative group">
+                      {p.name}
+                      {p.name === "vim.exe" && (
+                        <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10 text-[10px] font-mono text-white px-2 py-1 whitespace-nowrap pointer-events-none"
+                          style={{ background: "#000080", border: "1px solid #ffffff" }}>
+                          please. someone. help me close this.
+                        </span>
+                      )}
+                    </span>
                     <span className="w-28 text-right font-black" style={{ color: p.color, fontFamily: '"Arial Black", Impact, sans-serif', fontSize: "10px" }}>
                       {p.status}
                     </span>
@@ -1063,10 +1074,9 @@ LICENSE: Open to opportunities.`}</pre>
       >
         <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-2">
           <span
-            className="text-white font-black uppercase text-[12px]"
+            className="font-black uppercase text-[12px] footer-secret"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', cursor: "pointer" }}
             onClick={secretFooter.click}
-            title="..."
           >
             © 1997-2026 ISHAN PATEL | ALL RIGHTS RESERVED
           </span>
