@@ -909,7 +909,7 @@ LICENSE: Open to opportunities.`}</pre>
                       >
                         {link.label}:
                       </span>
-                      <a href={link.href} className="text-[#0000ff] underline hover:text-[#ff0000]">
+                      <a href={link.href} className="text-[#0000ff] underline hover:text-[#ff0000]" target="_blank" rel="noopener noreferrer">
                         {link.value}
                       </a>
                     </div>
