@@ -152,69 +152,87 @@ function SkillRow({ label }: { label: string }) {
 }
 
 /* ============================================================
-   CYBER SCAN TERMINAL
+   EASTER EGGS
    ============================================================ */
-const SCAN_LINES = [
-  "> INITIALIZING VISITOR SCAN...",
-  "> CHECKING IP REPUTATION... OK",
-  "> SCANNING FOR THREATS... NONE",
-  "> RUNNING OSINT LOOKUP... DONE",
-  "> THREAT LEVEL: LOW",
-  "> ACCESS GRANTED. WELCOME.",
-];
 
-function CyberScanTerminal() {
-  const [lines, setLines] = useState<string[]>([]);
-  const [visible, setVisible] = useState(true);
+// 1. BSOD on Konami code
+const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
+function useBSOD() {
+  const [show, setShow] = useState(false);
+  const seq = useRef<string[]>([]);
   useEffect(() => {
-    let i = 0;
-    function addLine() {
-      if (i < SCAN_LINES.length) {
-        setLines((prev) => [...prev, SCAN_LINES[i]]);
-        i++;
-        setTimeout(addLine, 400);
-      } else {
-        // Auto-dismiss after 2s
-        setTimeout(() => setVisible(false), 2000);
-      }
+    function onKey(e: KeyboardEvent) {
+      seq.current = [...seq.current, e.key].slice(-10);
+      if (seq.current.join(",") === KONAMI.join(",")) setShow(true);
     }
-    setTimeout(addLine, 600);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
+  return { show, dismiss: () => setShow(false) };
+}
 
-  if (!visible) return null;
-
+function BSOD({ onDismiss }: { onDismiss: () => void }) {
   return (
     <div
-      className="win95-card fixed bottom-4 right-4 z-50 w-72"
-      style={{ fontFamily: '"Courier New", Courier, monospace' }}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-12"
+      style={{ background: "#0000aa", color: "#ffffff", fontFamily: '"Courier New", Courier, monospace' }}
+      onClick={onDismiss}
     >
-      <div className="title-bar flex justify-between items-center">
-        <span>SECURITY_SCAN.EXE</span>
-        <button
-          onClick={() => setVisible(false)}
-          className="text-white font-black text-xs px-1 hover:bg-[#ff0000]"
-          style={{ lineHeight: 1, background: "transparent", border: "1px solid #808080" }}
-        >
-          X
-        </button>
-      </div>
-      <div style={{ background: "#000000", padding: "8px 10px", minHeight: "80px" }}>
-        {lines.map((line, i) => (
-          <div
-            key={i}
-            className="text-[11px] leading-5"
-            style={{ color: line.includes("GRANTED") ? "#00ff00" : line.includes("THREAT") ? "#ffff00" : "#00cc00" }}
-          >
-            {line}
-          </div>
-        ))}
-        {lines.length < SCAN_LINES.length && (
-          <span className="text-[#00ff00] text-[11px] text-blink">_</span>
-        )}
+      <div className="max-w-xl w-full">
+        <div className="text-center mb-6 font-black text-lg" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+          Windows
+        </div>
+        <p className="text-sm leading-6 mb-4">
+          A fatal exception 0E has occurred at 0028:C0034B52 in VXD VMM(01) +
+          00034B52. The current application will be terminated.
+        </p>
+        <p className="text-sm leading-6 mb-6">
+          * Press any key to terminate the current application.<br />
+          * Press CTRL+ALT+DEL to restart your computer. You will lose any unsaved information in all applications.
+        </p>
+        <p className="text-sm leading-6 mb-8">
+          Press any key to continue <span className="text-blink">_</span>
+        </p>
+        <div className="text-center text-[11px] text-[#aaaaff]">
+          (psst -- you found the Konami code Easter egg. nice.)
+        </div>
       </div>
     </div>
   );
+}
+
+// 2. Visitor counter click -- fake "hacking" popup
+function useCounterHack() {
+  const [show, setShow] = useState(false);
+  const [lines, setLines] = useState<string[]>([]);
+  function trigger() {
+    if (show) return;
+    setShow(true);
+    setLines([]);
+    const msgs = [
+      "> ACCESSING MAINFRAME...",
+      "> BYPASSING FIREWALL... OK",
+      "> INJECTING PAYLOAD... OK",
+      "> HACKING THE PLANET...",
+      "> just kidding lol",
+    ];
+    msgs.forEach((m, i) => setTimeout(() => setLines((p) => [...p, m]), i * 350));
+    setTimeout(() => setShow(false), msgs.length * 350 + 1200);
+  }
+  return { show, lines, trigger };
+}
+
+// 3. Footer copyright -- click 3 times for secret
+function useSecretFooter() {
+  const [clicks, setClicks] = useState(0);
+  const [show, setShow] = useState(false);
+  function click() {
+    const next = clicks + 1;
+    setClicks(next);
+    if (next >= 3) { setShow(true); setClicks(0); }
+  }
+  return { show, click, dismiss: () => setShow(false) };
 }
 
 /* ============================================================
@@ -321,6 +339,10 @@ function AnimatedName() {
 export default function Home() {
   const [visitorCount, setVisitorCount] = useState<string | null>(null);
   const [repoCount, setRepoCount] = useState<string | null>(null);
+  const bsod = useBSOD();
+  const counterHack = useCounterHack();
+  const secretFooter = useSecretFooter();
+  const [hireMeText, setHireMeText] = useState("► HIRE ME");
 
   useEffect(() => {
     fetch("/api/visitors")
@@ -479,8 +501,12 @@ export default function Home() {
                     href="#contact"
                     className="btn-90s btn-90s-blue"
                     style={{ textDecoration: "none" }}
+                    onClick={() => {
+                      setHireMeText("YOU SURE? (Y/N)");
+                      setTimeout(() => setHireMeText("► HIRE ME"), 1500);
+                    }}
                   >
-                    ► HIRE ME
+                    {hireMeText}
                   </a>
                   <a
                     href="mailto:Ishan.patel2807@gmail.com"
@@ -493,44 +519,42 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Career Goals */}
+            {/* README.TXT notepad */}
             <div className="win95-card flex flex-col">
-              <TitleBar icon="🎯">CAREER_GOALS.TXT</TitleBar>
-              <div className="win95-content" style={{ background: "#ffffff" }}>
-                <div className="flex flex-col gap-3">
-                  <div>
-                    <div className="font-black text-[12px] uppercase mb-2" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-                      SHORT TERM
-                    </div>
-                    {[
-                      "Land a cybersecurity internship (SOC, IT Security, or Pre-Sales)",
-                      "Earn CompTIA Security+ by June 2026",
-                      "Build out a personal cybersecurity homelab",
-                      "Transfer to Georgia Institute of Technology",
-                    ].map((g) => (
-                      <div key={g} className="flex gap-2 items-start text-[13px] leading-5 mb-1">
-                        <span className="text-[#00aa00] font-black shrink-0">►</span>
-                        <span>{g}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="hr-groove" />
-                  <div>
-                    <div className="font-black text-[12px] uppercase mb-2" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-                      LONG TERM
-                    </div>
-                    {[
-                      "Become a Sales Engineer at a top cybersecurity company",
-                      "Bridge the gap between technical security and business communication",
-                      "Obtain CISSP and CEH certifications",
-                      "Build and lead a security-focused team",
-                    ].map((g) => (
-                      <div key={g} className="flex gap-2 items-start text-[13px] leading-5 mb-1">
-                        <span className="text-[#000080] font-black shrink-0">►</span>
-                        <span>{g}</span>
-                      </div>
-                    ))}
-                  </div>
+              <TitleBar icon="📄">README.TXT</TitleBar>
+              <div className="win95-content overflow-hidden" style={{ background: "#ffffff" }}>
+                <pre
+                  className="text-[11px] leading-5 m-0 whitespace-pre-wrap"
+                  style={{ fontFamily: '"Courier New", Courier, monospace', color: "#000000" }}
+                >{`ISHAN_PATEL v1.0 -- README
+==========================
+
+INSTALLATION:
+Simply hire me. No dependencies required.
+
+KNOWN BUGS:
+- Occasionally forgets to sleep()
+- Will talk about cybersecurity unprompted
+- Japanese still buffering...
+
+SYSTEM REQUIREMENTS:
+- Internship opportunity
+- Wi-Fi (preferably fast)
+- Coffee (any version)
+
+WARRANTY:
+Ships with 100% genuine effort.
+No refunds. No cap.
+
+LICENSE: Open to opportunities.`}</pre>
+                {/* Fake Win95 scrollbar */}
+                <div
+                  className="border-t-2 border-[#808080] flex items-center"
+                  style={{ height: "16px", background: "#c0c0c0" }}
+                >
+                  <div className="bevel-out h-full w-4 shrink-0" style={{ background: "#c0c0c0" }} />
+                  <div className="flex-1 bevel-in mx-0" style={{ background: "#c0c0c0", height: "100%" }} />
+                  <div className="bevel-out h-full w-4 shrink-0" style={{ background: "#c0c0c0" }} />
                 </div>
               </div>
             </div>
@@ -547,7 +571,12 @@ export default function Home() {
                 <div className="counter-text text-[#00ff00] font-mono text-sm mb-1">
                   ■ ONLINE SINCE: 2007
                 </div>
-                <div className="text-[#00ff00] font-mono text-sm mb-1">
+                <div
+                  className="text-[#00ff00] font-mono text-sm mb-1"
+                  style={{ cursor: "pointer" }}
+                  onClick={counterHack.trigger}
+                  title="click me..."
+                >
                   ■ VISITORS: {visitorCount ?? "LOADING..."}
                 </div>
                 <div className="text-[#ffff00] font-mono text-sm mb-1">
@@ -576,7 +605,10 @@ export default function Home() {
                     className="flex items-center px-2 py-1 border-b border-[#808080] text-[11px] font-mono"
                     style={{ background: i % 2 === 0 ? "#ffffff" : "#e8e8e8" }}
                   >
-                    <span className="flex-1 truncate">{p.name}</span>
+                    <span
+                      className="flex-1 truncate"
+                      title={p.name === "vim.exe" ? "please. someone. help me close this." : undefined}
+                    >{p.name}</span>
                     <span className="w-28 text-right font-black" style={{ color: p.color, fontFamily: '"Arial Black", Impact, sans-serif', fontSize: "10px" }}>
                       {p.status}
                     </span>
@@ -1032,7 +1064,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-2">
           <span
             className="text-white font-black uppercase text-[12px]"
-            style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
+            style={{ fontFamily: '"Arial Black", Impact, sans-serif', cursor: "pointer" }}
+            onClick={secretFooter.click}
+            title="..."
           >
             © 1997-2026 ISHAN PATEL | ALL RIGHTS RESERVED
           </span>
@@ -1049,7 +1083,47 @@ export default function Home() {
         </div>
       </footer>
 
-      <CyberScanTerminal />
+      {/* Easter egg: BSOD */}
+      {bsod.show && <BSOD onDismiss={bsod.dismiss} />}
+
+      {/* Easter egg: counter hack popup */}
+      {counterHack.show && (
+        <div
+          className="win95-card fixed bottom-4 right-4 z-50 w-64"
+          style={{ fontFamily: '"Courier New", Courier, monospace' }}
+        >
+          <div className="title-bar">HACK_THE_PLANET.EXE</div>
+          <div style={{ background: "#000", padding: "8px 10px", minHeight: "60px" }}>
+            {counterHack.lines.map((l, i) => (
+              <div key={i} className="text-[11px] leading-5" style={{ color: "#00ff00" }}>{l}</div>
+            ))}
+            <span className="text-[#00ff00] text-[11px] text-blink">_</span>
+          </div>
+        </div>
+      )}
+
+      {/* Easter egg: secret footer message */}
+      {secretFooter.show && (
+        <div
+          className="win95-card fixed inset-0 m-auto z-50 w-80 h-fit"
+          onClick={secretFooter.dismiss}
+        >
+          <div className="title-bar">SECRET.TXT</div>
+          <div className="win95-content text-center flex flex-col gap-2">
+            <div className="text-2xl">🕵️</div>
+            <div className="font-black text-[13px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+              you found it.
+            </div>
+            <p className="text-[12px] leading-5">
+              if you&apos;re reading this, you&apos;re exactly the kind of person i want to work with.<br /><br />
+              email me. seriously.
+            </p>
+            <a href="mailto:Ishan.patel2807@gmail.com" className="btn-90s btn-90s-blue text-center" style={{ textDecoration: "none" }}>
+              ► EMAIL NOW
+            </a>
+          </div>
+        </div>
+      )}
 
     </div>
   );
