@@ -300,16 +300,38 @@ function useMatrix() {
   return { show, click, dismiss: () => setShow(false) };
 }
 
-// 6. Nuke button — big red button that "launches missiles"
-function NukeButton() {
-  const [phase, setPhase] = useState<"idle"|"confirm"|"launching"|"done">("idle");
+// 6. Nuke — blows up the entire page
+type NukePhase = "idle" | "confirm" | "countdown" | "exploding" | "dead" | "rebuilding";
+
+function useNuke() {
+  const [phase, setPhase] = useState<NukePhase>("idle");
+  const [count, setCount] = useState(3);
+
   function arm() { setPhase("confirm"); }
-  function launch() {
-    setPhase("launching");
-    setTimeout(() => setPhase("done"), 3000);
-    setTimeout(() => setPhase("idle"), 5000);
-  }
   function abort() { setPhase("idle"); }
+
+  function launch() {
+    setPhase("countdown");
+    setCount(3);
+    let c = 3;
+    const tick = setInterval(() => {
+      c--;
+      setCount(c);
+      if (c <= 0) {
+        clearInterval(tick);
+        setPhase("exploding");
+        setTimeout(() => setPhase("dead"), 1200);
+        setTimeout(() => setPhase("rebuilding"), 4500);
+        setTimeout(() => setPhase("idle"), 6000);
+      }
+    }, 1000);
+  }
+
+  return { phase, count, arm, abort, launch };
+}
+
+function NukeButton({ nuke }: { nuke: ReturnType<typeof useNuke> }) {
+  const { phase, arm, abort } = nuke;
   if (phase === "idle") return (
     <button className="btn-90s mt-2 text-[10px] px-2 py-0.5" style={{ background: "#cc0000", color: "#fff", borderColor: "#ff4444 #880000 #880000 #ff4444" }} onClick={arm}>
       🔴 DO NOT PRESS
@@ -317,12 +339,11 @@ function NukeButton() {
   );
   if (phase === "confirm") return (
     <div className="flex gap-1 mt-2">
-      <button className="btn-90s text-[10px] px-2 py-0.5" style={{ background: "#cc0000", color: "#fff" }} onClick={launch}>LAUNCH 🚀</button>
+      <button className="btn-90s text-[10px] px-2 py-0.5" style={{ background: "#cc0000", color: "#fff" }} onClick={nuke.launch}>LAUNCH 🚀</button>
       <button className="btn-90s text-[10px] px-2 py-0.5" onClick={abort}>ABORT</button>
     </div>
   );
-  if (phase === "launching") return <div className="font-mono text-[11px] mt-2 text-blink" style={{ color: "#ff0000" }}>🚀 MISSILES AWAY... (just kidding)</div>;
-  return <div className="font-mono text-[11px] mt-2" style={{ color: "#00aa00" }}>✓ MISSILES RECALLED. phew.</div>;
+  return <div className="font-mono text-[11px] mt-2 text-blink" style={{ color: "#ff0000" }}>💣 ARMED</div>;
 }
 
 // 7. Rickroll — click the ??? project
@@ -545,6 +566,7 @@ export default function Home() {
   const secretFooter = useSecretFooter();
   const firewall = useFirewallBreach();
   const matrix = useMatrix();
+  const nuke = useNuke();
   const rickroll = useRickroll();
   const password = usePasswordPrompt();
   const shake = usePageShake();
@@ -582,7 +604,15 @@ export default function Home() {
   ];
 
   return (
-    <div className={shake.shaking ? "page-shake" : ""} style={agent.active ? { filter: "hue-rotate(100deg) saturate(1.5)", transition: "filter 0.5s" } : undefined}>
+    <div
+      className={shake.shaking ? "page-shake" : ""}
+      style={{
+        ...(agent.active ? { filter: "hue-rotate(100deg) saturate(1.5)", transition: "filter 0.5s" } : {}),
+        ...(nuke.phase === "exploding" ? { animation: "nuke-shake 0.1s infinite", transformOrigin: "center" } : {}),
+        ...(nuke.phase === "dead" ? { opacity: 0, transition: "opacity 0.5s" } : {}),
+        ...(nuke.phase === "rebuilding" ? { opacity: 1, transition: "opacity 1s" } : {}),
+      }}
+    >
 
       {/* ── MARQUEE ANNOUNCEMENT BAR ── */}
       <div
@@ -756,7 +786,7 @@ No refunds. No cap.
 
 LICENSE: Open to opportunities.`}</pre>
                 <div className="px-2 pb-2">
-                  <NukeButton />
+                  <NukeButton nuke={nuke} />
                 </div>
                 {/* Fake Win95 scrollbar */}
                 <div
@@ -1295,6 +1325,39 @@ LICENSE: Open to opportunities.`}</pre>
 
       {/* Easter egg: Matrix rain */}
       {matrix.show && <MatrixRain onDismiss={matrix.dismiss} />}
+
+      {/* Easter egg: Nuke countdown */}
+      {nuke.phase === "countdown" && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
+          <div
+            className="text-[180px] font-black text-blink"
+            style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#ff0000", textShadow: "0 0 40px #ff0000" }}
+          >
+            {nuke.count}
+          </div>
+        </div>
+      )}
+
+      {/* Easter egg: Explosion screen */}
+      {(nuke.phase === "exploding" || nuke.phase === "dead") && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none"
+          style={{ background: nuke.phase === "dead" ? "#000" : "transparent" }}>
+          {nuke.phase === "exploding" && (
+            <div className="explosion-burst">
+              {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
+                <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
+              ))}
+            </div>
+          )}
+          {nuke.phase === "dead" && (
+            <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
+              <div className="text-6xl mb-4">💀</div>
+              <div className="text-2xl font-black" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>WEBSITE DESTROYED</div>
+              <div className="text-sm mt-2 text-[#ff8800]">rebuilding in progress...</div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Easter egg: Rickroll */}
       {rickroll.show && <RickrollModal onDismiss={rickroll.dismiss} />}

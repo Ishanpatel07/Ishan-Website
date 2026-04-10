@@ -233,6 +233,35 @@ a:active  { color: #ff0000; }
 .btn-90s-blue:hover  { background: #2222ff; color: #ffffff; }
 .btn-90s-blue:active { border-color: #000080 #5555ff #5555ff #000080; color: #ffffff; }
 
+/* Nuke shake */
+@keyframes nuke-shake {
+  0%   { transform: translate(-4px, -4px) rotate(-1deg); }
+  25%  { transform: translate(4px, -4px) rotate(1deg); }
+  50%  { transform: translate(-4px, 4px) rotate(-1deg); }
+  75%  { transform: translate(4px, 4px) rotate(1deg); }
+  100% { transform: translate(-4px, -4px) rotate(-1deg); }
+}
+
+/* Explosion burst */
+.explosion-burst {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+@keyframes explode-out {
+  0%   { transform: translate(-50%, -50%) rotate(calc(var(--i) * (360deg / var(--total)))) translateX(0px) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) rotate(calc(var(--i) * (360deg / var(--total)))) translateX(300px) scale(2); opacity: 0; }
+}
+
+.explosion-piece {
+  position: absolute;
+  font-size: 48px;
+  top: 50%;
+  left: 50%;
+  animation: explode-out 1.2s ease-out forwards;
+}
+
 /* Page shake */
 @keyframes page-shake {
   0%,100% { transform: translateX(0); }
