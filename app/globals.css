@@ -311,6 +311,17 @@ a:active  { color: #ff0000; }
   outline-offset: 2px;
 }
 
+/* Remove blue highlight on click/tap */
+* {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Re-enable text selection for readable content */
+p, pre, span, li, h1, h2, h3, h4, h5, h6, a {
+  user-select: text;
+}
+
 /* Win95 scrollbar */
 ::-webkit-scrollbar { width: 16px; height: 16px; }
 ::-webkit-scrollbar-track { background: #c0c0c0; }
