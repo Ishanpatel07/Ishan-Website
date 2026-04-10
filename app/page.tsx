@@ -300,6 +300,97 @@ function useMatrix() {
   return { show, click, dismiss: () => setShow(false) };
 }
 
+// 6. Nuke button — big red button that "launches missiles"
+function NukeButton() {
+  const [phase, setPhase] = useState<"idle"|"confirm"|"launching"|"done">("idle");
+  function arm() { setPhase("confirm"); }
+  function launch() {
+    setPhase("launching");
+    setTimeout(() => setPhase("done"), 3000);
+    setTimeout(() => setPhase("idle"), 5000);
+  }
+  function abort() { setPhase("idle"); }
+  if (phase === "idle") return (
+    <button className="btn-90s mt-2 text-[10px] px-2 py-0.5" style={{ background: "#cc0000", color: "#fff", borderColor: "#ff4444 #880000 #880000 #ff4444" }} onClick={arm}>
+      🔴 DO NOT PRESS
+    </button>
+  );
+  if (phase === "confirm") return (
+    <div className="flex gap-1 mt-2">
+      <button className="btn-90s text-[10px] px-2 py-0.5" style={{ background: "#cc0000", color: "#fff" }} onClick={launch}>LAUNCH 🚀</button>
+      <button className="btn-90s text-[10px] px-2 py-0.5" onClick={abort}>ABORT</button>
+    </div>
+  );
+  if (phase === "launching") return <div className="font-mono text-[11px] mt-2 text-blink" style={{ color: "#ff0000" }}>🚀 MISSILES AWAY... (just kidding)</div>;
+  return <div className="font-mono text-[11px] mt-2" style={{ color: "#00aa00" }}>✓ MISSILES RECALLED. phew.</div>;
+}
+
+// 7. Rickroll — click the ??? project
+function useRickroll() {
+  const [show, setShow] = useState(false);
+  return { show, trigger: () => setShow(true), dismiss: () => setShow(false) };
+}
+
+function RickrollModal({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ background: "rgba(0,0,0,0.85)" }} onClick={onDismiss}>
+      <div className="win95-card w-80">
+        <div className="title-bar flex justify-between">
+          <span>SECRET_PROJECT.EXE</span>
+          <button onClick={onDismiss} className="text-white px-1 text-xs" style={{ background: "transparent", border: "1px solid #808080" }}>X</button>
+        </div>
+        <div className="win95-content text-center flex flex-col gap-3">
+          <div className="text-4xl">🎵</div>
+          <div className="font-black text-[13px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+            never gonna give you up
+          </div>
+          <div className="font-mono text-[11px] text-[#808080]">never gonna let you down</div>
+          <div className="font-mono text-[11px] text-[#808080]">never gonna run around and desert you</div>
+          <button className="btn-90s text-[11px]" onClick={onDismiss}>close (if you can)</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 8. Fake password prompt on Skills title click
+function usePasswordPrompt() {
+  const [show, setShow] = useState(false);
+  const [input, setInput] = useState("");
+  const [msg, setMsg] = useState("");
+  function attempt() {
+    if (input.toLowerCase() === "hunter2") {
+      setMsg("✓ ACCESS GRANTED. (classic)");
+      setTimeout(() => { setShow(false); setInput(""); setMsg(""); }, 1500);
+    } else {
+      setMsg("✗ WRONG PASSWORD. hint: its hunter2");
+      setTimeout(() => setMsg(""), 1500);
+    }
+  }
+  return { show, trigger: () => setShow(true), input, setInput, attempt, msg, dismiss: () => { setShow(false); setInput(""); setMsg(""); } };
+}
+
+// 9. Shake the page on double-click of EXPERIENCE title
+function usePageShake() {
+  const [shaking, setShaking] = useState(false);
+  function trigger() {
+    setShaking(true);
+    setTimeout(() => setShaking(false), 600);
+  }
+  return { shaking, trigger };
+}
+
+// 10. Secret agent mode — click INTERESTS title 5 times
+function useAgentMode() {
+  const [active, setActive] = useState(false);
+  const clicks = useRef(0);
+  function click() {
+    clicks.current++;
+    if (clicks.current >= 5) { clicks.current = 0; setActive((a) => !a); }
+  }
+  return { active, click };
+}
+
 /* ============================================================
    ANIMATED NAME
    ============================================================ */
@@ -454,6 +545,10 @@ export default function Home() {
   const secretFooter = useSecretFooter();
   const firewall = useFirewallBreach();
   const matrix = useMatrix();
+  const rickroll = useRickroll();
+  const password = usePasswordPrompt();
+  const shake = usePageShake();
+  const agent = useAgentMode();
   const [hireMeText, setHireMeText] = useState("► HIRE ME");
 
   useEffect(() => {
@@ -487,7 +582,7 @@ export default function Home() {
   ];
 
   return (
-    <div>
+    <div className={shake.shaking ? "page-shake" : ""} style={agent.active ? { filter: "hue-rotate(100deg) saturate(1.5)", transition: "filter 0.5s" } : undefined}>
 
       {/* ── MARQUEE ANNOUNCEMENT BAR ── */}
       <div
@@ -660,6 +755,9 @@ Ships with 100% genuine effort.
 No refunds. No cap.
 
 LICENSE: Open to opportunities.`}</pre>
+                <div className="px-2 pb-2">
+                  <NukeButton />
+                </div>
                 {/* Fake Win95 scrollbar */}
                 <div
                   className="border-t-2 border-[#808080] flex items-center"
@@ -789,7 +887,9 @@ LICENSE: Open to opportunities.`}</pre>
         <div className="flex items-center gap-3 mb-3">
           <h2
             className="text-3xl uppercase tracking-tight"
-            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
+            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080", cursor: "pointer" }}
+            onClick={password.trigger}
+            title="click me"
           >
             SKILLS &amp; TOOLS
           </h2>
@@ -866,7 +966,7 @@ LICENSE: Open to opportunities.`}</pre>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {projects.map((proj, i) => (
-            <div key={i} className="win95-card">
+            <div key={i} className="win95-card" onClick={proj.type === "Coming Soon" ? rickroll.trigger : undefined} style={proj.type === "Coming Soon" ? { cursor: "pointer" } : undefined}>
               <TitleBar icon="💾">{proj.name}</TitleBar>
               <div className="win95-content flex flex-col gap-2">
                 <div className="flex items-center justify-between">
@@ -907,7 +1007,9 @@ LICENSE: Open to opportunities.`}</pre>
         <div className="flex items-center gap-3 mb-3">
           <h2
             className="text-3xl uppercase tracking-tight"
-            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
+            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080", cursor: "pointer" }}
+            onDoubleClick={shake.trigger}
+            title="try double clicking..."
           >
             EXPERIENCE
           </h2>
@@ -1027,7 +1129,8 @@ LICENSE: Open to opportunities.`}</pre>
               </ul>
             </Win95Card>
 
-            <Win95Card title="INTERESTS" icon="🔐">
+            <div onClick={agent.click}>
+            <Win95Card title={agent.active ? "[ CLASSIFIED ]" : "INTERESTS"} icon={agent.active ? "🕵️" : "🔐"}>
               <div className="text-[13px] leading-5">
                 {[
                   "Penetration Testing",
@@ -1047,6 +1150,7 @@ LICENSE: Open to opportunities.`}</pre>
                 ))}
               </div>
             </Win95Card>
+            </div>
           </div>
         </div>
       </section>
@@ -1191,6 +1295,40 @@ LICENSE: Open to opportunities.`}</pre>
 
       {/* Easter egg: Matrix rain */}
       {matrix.show && <MatrixRain onDismiss={matrix.dismiss} />}
+
+      {/* Easter egg: Rickroll */}
+      {rickroll.show && <RickrollModal onDismiss={rickroll.dismiss} />}
+
+      {/* Easter egg: Password prompt */}
+      {password.show && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ background: "rgba(0,0,0,0.7)" }}>
+          <div className="win95-card w-72">
+            <div className="title-bar flex justify-between">
+              <span>ACCESS CONTROL</span>
+              <button onClick={password.dismiss} className="text-white px-1 text-xs" style={{ background: "transparent", border: "1px solid #808080" }}>X</button>
+            </div>
+            <div className="win95-content flex flex-col gap-3">
+              <div className="font-mono text-[12px]">🔒 Enter password to view skills:</div>
+              <input
+                autoFocus
+                type="password"
+                value={password.input}
+                onChange={(e) => password.setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && password.attempt()}
+                className="bevel-in px-2 py-1 text-[12px] font-mono w-full"
+                style={{ background: "#fff", outline: "none" }}
+                placeholder="password..."
+              />
+              {password.msg && <div className="font-mono text-[11px]" style={{ color: password.msg.startsWith("✓") ? "#00aa00" : "#ff0000" }}>{password.msg}</div>}
+              <div className="flex gap-2">
+                <button className="btn-90s text-[11px] px-3" onClick={password.attempt}>OK</button>
+                <button className="btn-90s text-[11px] px-3" onClick={password.dismiss}>Cancel</button>
+              </div>
+              <div className="font-mono text-[10px] text-[#808080]">hint: its a classic password</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Easter egg: counter hack popup */}
       {counterHack.show && (
