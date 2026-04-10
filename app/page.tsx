@@ -21,11 +21,11 @@ const experience = [
     role: "Director of Finance",
     company: "PROGSU",
     companyHref: "https://www.progsu.com",
-    companySuffix: " — Programming Club at Georgia State University",
+    companySuffix: " | Programming Club at Georgia State University",
     period: "January 2026 – Present",
     hacklanta: true,
     bullets: [
-      "Helped organize Hacklanta 2026, GSU's flagship 24-hour hackathon — 350–400+ attendees, one of the largest student-run hackathons in the Southeast",
+      "Helped organize Hacklanta 2026, GSU's flagship 24-hour hackathon with 350-400+ attendees, one of the largest student-run hackathons in the Southeast",
       "Handled all bookkeeping, budgeting, and financial tracking for the organization",
       "Managed sponsor payment tracking and post-event financial reconciliation across 8+ corporate partners",
     ],
@@ -83,7 +83,7 @@ const processes = [
   { name: "sleep.exe",            status: "SUSPENDED",      color: "#808080" },
   { name: "coffee.dll",           status: "RUNNING",        color: "#00aa00" },
   { name: "internship_search.exe",status: "RUNNING",        color: "#00aa00" },
-  { name: "gpa_recovery.bat",     status: "RUNNING",        color: "#00aa00" },
+  { name: "nmap_scan.exe",         status: "RUNNING",        color: "#00aa00" },
   { name: "vim.exe",              status: "cannot close",   color: "#ff8000" },
 ];
 
@@ -147,6 +147,72 @@ function SkillRow({ label }: { label: string }) {
     >
       <span className="text-[#00aa00] font-black mr-1">►</span>
       {label}
+    </div>
+  );
+}
+
+/* ============================================================
+   CYBER SCAN TERMINAL
+   ============================================================ */
+const SCAN_LINES = [
+  "> INITIALIZING VISITOR SCAN...",
+  "> CHECKING IP REPUTATION... OK",
+  "> SCANNING FOR THREATS... NONE",
+  "> RUNNING OSINT LOOKUP... DONE",
+  "> THREAT LEVEL: LOW",
+  "> ACCESS GRANTED. WELCOME.",
+];
+
+function CyberScanTerminal() {
+  const [lines, setLines] = useState<string[]>([]);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    let i = 0;
+    function addLine() {
+      if (i < SCAN_LINES.length) {
+        setLines((prev) => [...prev, SCAN_LINES[i]]);
+        i++;
+        setTimeout(addLine, 400);
+      } else {
+        // Auto-dismiss after 2s
+        setTimeout(() => setVisible(false), 2000);
+      }
+    }
+    setTimeout(addLine, 600);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div
+      className="win95-card fixed bottom-4 right-4 z-50 w-72"
+      style={{ fontFamily: '"Courier New", Courier, monospace' }}
+    >
+      <div className="title-bar flex justify-between items-center">
+        <span>SECURITY_SCAN.EXE</span>
+        <button
+          onClick={() => setVisible(false)}
+          className="text-white font-black text-xs px-1 hover:bg-[#ff0000]"
+          style={{ lineHeight: 1, background: "transparent", border: "1px solid #808080" }}
+        >
+          X
+        </button>
+      </div>
+      <div style={{ background: "#000000", padding: "8px 10px", minHeight: "80px" }}>
+        {lines.map((line, i) => (
+          <div
+            key={i}
+            className="text-[11px] leading-5"
+            style={{ color: line.includes("GRANTED") ? "#00ff00" : line.includes("THREAT") ? "#ffff00" : "#00cc00" }}
+          >
+            {line}
+          </div>
+        ))}
+        {lines.length < SCAN_LINES.length && (
+          <span className="text-[#00ff00] text-[11px] text-blink">_</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -228,7 +294,7 @@ function AnimatedName() {
         style={{
           fontFamily: '"Arial Black", Impact, sans-serif',
           textShadow: starMode ? undefined : "3px 3px 0 #808080",
-          animation: starMode ? "mario-star 0.3s linear infinite" : undefined,
+          animation: starMode ? "mario-star 1.2s linear infinite" : undefined,
           minWidth: "14ch",
           display: "inline-block",
         }}
@@ -300,16 +366,16 @@ export default function Home() {
             ★ AVAILABLE FOR CYBER INTERNSHIPS
           </span>
           <span className="mx-6 text-[#00ff00] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-            ★ CIS @ GEORGIA STATE — CYBERSECURITY CONCENTRATION
+            ★ CIS @ GEORGIA STATE | CYBERSECURITY CONCENTRATION
           </span>
           <span className="mx-6 text-[#ff0000] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
             ★ SEEKING CYBERSECURITY INTERNSHIP
           </span>
           <span className="mx-6 text-[#ffffff] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-            ★ COMPTIA SECURITY+ — EXPECTED JUNE 2026
+            ★ COMPTIA SECURITY+ | EXPECTED JUNE 2026
           </span>
           <span className="mx-6 text-[#ffff00] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-            ★ HACKLANTA 2026 ORGANIZER — 400+ ATTENDEES
+            ★ HACKLANTA 2026 ORGANIZER | 400+ ATTENDEES
           </span>
           <span className="mx-6 text-[#00ffff] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
             ★ ISC2 CERTIFIED IN CYBERSECURITY (CC)
@@ -357,7 +423,7 @@ export default function Home() {
 
             {/* Bio card */}
             <div className="win95-card">
-              <TitleBar icon="🖥️">ISHAN_PATEL.EXE — CYBERSECURITY PORTFOLIO v1.0</TitleBar>
+              <TitleBar icon="🖥️">ISHAN_PATEL.EXE | CYBERSECURITY PORTFOLIO v1.0</TitleBar>
               <div className="win95-content-yellow flex flex-col gap-2">
                 <div className="text-center">
                   <AnimatedName />
@@ -392,7 +458,7 @@ export default function Home() {
                 <p className="text-[15px] leading-6">
                   Freshman at <strong>Georgia State University</strong> majoring in Computer
                   Information Systems with a <strong>Cybersecurity concentration</strong> and
-                  a minor in Computer Science — working toward transferring to{" "}
+                  a minor in Computer Science, working toward transferring to{" "}
                   <strong>Georgia Tech</strong>. Self-taught across multiple programming
                   languages and AI-powered tools, with real-world experience in{" "}
                   <strong>sales and e-commerce</strong>. Helped organize{" "}
@@ -427,43 +493,44 @@ export default function Home() {
               </div>
             </div>
 
-            {/* README.TXT notepad */}
+            {/* Career Goals */}
             <div className="win95-card flex flex-col">
-              <TitleBar icon="📄">README.TXT</TitleBar>
-              <div className="win95-content overflow-hidden" style={{ background: "#ffffff" }}>
-                <pre
-                  className="text-[11px] leading-5 m-0 whitespace-pre-wrap"
-                  style={{ fontFamily: '"Courier New", Courier, monospace', color: "#000000" }}
-                >{`ISHAN_PATEL v1.0 — README
-==========================
-
-INSTALLATION:
-Simply hire me. No dependencies required.
-
-KNOWN BUGS:
-- Occasionally forgets to sleep()
-- Will talk about cybersecurity unprompted
-- Japanese still buffering...
-- GPA non-critical, patch incoming
-
-SYSTEM REQUIREMENTS:
-- Internship opportunity
-- Wi-Fi (preferably fast)
-- Coffee (any version)
-
-WARRANTY:
-Ships with 100% genuine effort.
-No refunds. No cap.
-
-LICENSE: Open to opportunities.`}</pre>
-                {/* Fake Win95 scrollbar */}
-                <div
-                  className="border-t-2 border-[#808080] flex items-center"
-                  style={{ height: "16px", background: "#c0c0c0" }}
-                >
-                  <div className="bevel-out h-full w-4 shrink-0" style={{ background: "#c0c0c0" }} />
-                  <div className="flex-1 bevel-in mx-0" style={{ background: "#c0c0c0", height: "100%" }} />
-                  <div className="bevel-out h-full w-4 shrink-0" style={{ background: "#c0c0c0" }} />
+              <TitleBar icon="🎯">CAREER_GOALS.TXT</TitleBar>
+              <div className="win95-content" style={{ background: "#ffffff" }}>
+                <div className="flex flex-col gap-3">
+                  <div>
+                    <div className="font-black text-[12px] uppercase mb-2" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+                      SHORT TERM
+                    </div>
+                    {[
+                      "Land a cybersecurity internship (SOC, IT Security, or Pre-Sales)",
+                      "Earn CompTIA Security+ by June 2026",
+                      "Build out a personal cybersecurity homelab",
+                      "Transfer to Georgia Institute of Technology",
+                    ].map((g) => (
+                      <div key={g} className="flex gap-2 items-start text-[13px] leading-5 mb-1">
+                        <span className="text-[#00aa00] font-black shrink-0">►</span>
+                        <span>{g}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="hr-groove" />
+                  <div>
+                    <div className="font-black text-[12px] uppercase mb-2" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+                      LONG TERM
+                    </div>
+                    {[
+                      "Become a Sales Engineer at a top cybersecurity company",
+                      "Bridge the gap between technical security and business communication",
+                      "Obtain CISSP and CEH certifications",
+                      "Build and lead a security-focused team",
+                    ].map((g) => (
+                      <div key={g} className="flex gap-2 items-start text-[13px] leading-5 mb-1">
+                        <span className="text-[#000080] font-black shrink-0">►</span>
+                        <span>{g}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -795,7 +862,7 @@ LICENSE: Open to opportunities.`}</pre>
                 className="text-rainbow text-2xl font-black uppercase mb-3 leading-tight"
                 style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
               >
-                SALES ENGINEER — CYBERSECURITY
+                SALES ENGINEER | CYBERSECURITY
               </div>
               <div className="text-[13px] leading-5 mb-3">
                 Combining deep technical knowledge in cybersecurity with strong
@@ -860,7 +927,7 @@ LICENSE: Open to opportunities.`}</pre>
         className="max-w-7xl mx-auto px-6 py-8"
       >
         <div className="win95-card">
-          <TitleBar icon="📧">CONTACT — OPEN FOR OPPORTUNITIES</TitleBar>
+          <TitleBar icon="📧">CONTACT | OPEN FOR OPPORTUNITIES</TitleBar>
           <div className="win95-content-yellow">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -967,7 +1034,7 @@ LICENSE: Open to opportunities.`}</pre>
             className="text-white font-black uppercase text-[12px]"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
           >
-            © 1997–2026 ISHAN PATEL — ALL RIGHTS RESERVED
+            © 1997-2026 ISHAN PATEL | ALL RIGHTS RESERVED
           </span>
           <div className="hit-counter py-1 px-3">
             <span className="counter-text text-[#00ff00] font-mono text-[12px]">
@@ -981,6 +1048,8 @@ LICENSE: Open to opportunities.`}</pre>
           </span>
         </div>
       </footer>
+
+      <CyberScanTerminal />
 
     </div>
   );

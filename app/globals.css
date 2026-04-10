@@ -9,6 +9,15 @@ html {
   color-scheme: light only;
 }
 
+/* Retro Windows cursor */
+*, *::before, *::after {
+  cursor: url('/cursor.svg') 0 0, auto !important;
+}
+
+a, button, [role="button"], .btn-90s, label, select {
+  cursor: url('/cursor-pointer.svg') 0 0, pointer !important;
+}
+
 body {
   background-color: #c0c0c0;
   background-image:
@@ -44,14 +53,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes mario-star {
-  0%   { color: #ff0000; text-shadow: 3px 3px 0 #800000, 0 0 12px #ff0000; transform: scale(1); }
-  14%  { color: #ff8000; text-shadow: 3px 3px 0 #804000, 0 0 14px #ff8000; transform: scale(1.04); }
-  28%  { color: #ffff00; text-shadow: 3px 3px 0 #808000, 0 0 16px #ffff00; transform: scale(1); }
-  42%  { color: #00ff00; text-shadow: 3px 3px 0 #008000, 0 0 14px #00ff00; transform: scale(1.04); }
-  57%  { color: #00ffff; text-shadow: 3px 3px 0 #008080, 0 0 16px #00ffff; transform: scale(1); }
-  71%  { color: #0080ff; text-shadow: 3px 3px 0 #004080, 0 0 14px #0080ff; transform: scale(1.04); }
-  85%  { color: #ff00ff; text-shadow: 3px 3px 0 #800080, 0 0 16px #ff00ff; transform: scale(1); }
-  100% { color: #ff0000; text-shadow: 3px 3px 0 #800000, 0 0 12px #ff0000; transform: scale(1.04); }
+  0%   { color: #cc0000; text-shadow: 2px 2px 0 #800000; }
+  20%  { color: #cc6600; text-shadow: 2px 2px 0 #804000; }
+  40%  { color: #888800; text-shadow: 2px 2px 0 #606000; }
+  60%  { color: #007700; text-shadow: 2px 2px 0 #004400; }
+  80%  { color: #0055cc; text-shadow: 2px 2px 0 #003080; }
+  100% { color: #cc0000; text-shadow: 2px 2px 0 #800000; }
 }
 
 @keyframes pulse-glow {
