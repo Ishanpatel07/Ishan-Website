@@ -311,6 +311,10 @@ a:active  { color: #ff0000; }
   outline-offset: 2px;
 }
 
+*:focus {
+  outline: none;
+}
+
 /* Remove blue highlight on click/tap */
 * {
   -webkit-tap-highlight-color: transparent;
