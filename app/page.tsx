@@ -737,18 +737,6 @@ LICENSE: Open to opportunities.`}</pre>
                     </span>
                     {exp.hacklanta && <Badge label="HACKLANTA 2026" pulse />}
                   </div>
-                  {exp.hacklanta && (
-                    <div
-                      className="mb-3 p-2 bevel-in text-[13px] font-black uppercase"
-                      style={{
-                        background: "#000080",
-                        color: "#ffffff",
-                        fontFamily: '"Arial Black", Impact, sans-serif',
-                      }}
-                    >
-                      ★ HELPED ORGANIZE HACKLANTA 2026 — GSU&apos;s FLAGSHIP 24-HOUR HACKATHON &mdash; 350–400+ ATTENDEES
-                    </div>
-                  )}
                   <ul className="list-none p-0 m-0">
                     {exp.bullets.map((b, j) => (
                       <li key={j} className="text-[14px] leading-6 mb-2 flex gap-2">
