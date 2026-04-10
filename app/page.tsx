@@ -202,13 +202,6 @@ function AnimatedName() {
       if (!cancelled) {
         setDone(true);
         setStarMode(true);
-        if (audioRef.current) {
-          audioRef.current.play()
-            .then(() => setPlaying(true))
-            .catch(() => {
-              // autoplay blocked — user needs to click play button
-            });
-        }
       }
     }
 
