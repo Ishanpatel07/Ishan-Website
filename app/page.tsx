@@ -374,8 +374,8 @@ function useNuke() {
         clearInterval(tick);
         setPhase("exploding");
         setTimeout(() => setPhase("dead"), 800);
-        setTimeout(() => setPhase("rebuilding"), 5500);
-        setTimeout(() => setPhase("idle"), 7000);
+        setTimeout(() => setPhase("rebuilding"), 3500);
+        setTimeout(() => setPhase("idle"), 5000);
       }
     }, 1000);
   }
