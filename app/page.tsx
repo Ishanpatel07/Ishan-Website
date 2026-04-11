@@ -373,6 +373,7 @@ function useNuke() {
       if (c <= 0) {
         clearInterval(tick);
         setPhase("exploding");
+        new Audio("/explosion.mp3").play().catch(() => {});
         setTimeout(() => setPhase("dead"), 800);
         setTimeout(() => setPhase("rebuilding"), 3500);
         setTimeout(() => setPhase("idle"), 5000);
