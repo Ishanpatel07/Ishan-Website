@@ -318,6 +318,41 @@ function useMatrix() {
   return { show, click, dismiss: () => setShow(false) };
 }
 
+// Glitch overlay shown during explosion phase
+function NukeGlitch() {
+  const [lines, setLines] = useState<{ top: number; width: number; color: string }[]>([]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLines(Array.from({ length: 12 }, () => ({
+        top: Math.random() * 100,
+        width: Math.random() * 60 + 20,
+        color: Math.random() > 0.5 ? "#ff0000" : Math.random() > 0.5 ? "#00ff00" : "#ffffff",
+      })));
+    }, 60);
+    return () => clearInterval(interval);
+  }, []);
+  return (
+    <div className="w-full h-full relative overflow-hidden" style={{ background: "rgba(0,0,0,0.85)" }}>
+      {lines.map((l, i) => (
+        <div key={i} style={{
+          position: "absolute",
+          top: `${l.top}%`,
+          left: `${Math.random() * 40}%`,
+          width: `${l.width}%`,
+          height: `${Math.random() * 8 + 2}px`,
+          background: l.color,
+          opacity: Math.random() * 0.8 + 0.2,
+        }} />
+      ))}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div style={{ fontFamily: "monospace", color: "#ff0000", fontSize: 18, fontWeight: 900, textShadow: "2px 0 #00ff00, -2px 0 #0000ff", letterSpacing: 4 }}>
+          CRITICAL FAILURE
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 6. Nuke — blows up the entire page
 type NukePhase = "idle" | "confirm" | "countdown" | "exploding" | "dead" | "rebuilding";
 
@@ -338,9 +373,9 @@ function useNuke() {
       if (c <= 0) {
         clearInterval(tick);
         setPhase("exploding");
-        setTimeout(() => setPhase("dead"), 1200);
-        setTimeout(() => setPhase("rebuilding"), 10000);
-        setTimeout(() => setPhase("idle"), 12000);
+        setTimeout(() => setPhase("dead"), 800);
+        setTimeout(() => setPhase("rebuilding"), 5500);
+        setTimeout(() => setPhase("idle"), 7000);
       }
     }, 1000);
   }
@@ -1453,24 +1488,41 @@ SECRETS (shh):
 
     {/* Nuke overlays — outside main div so they're not hidden with it */}
     {nuke.phase === "exploding" && (
-      <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none">
-        <div className="explosion-burst">
-          {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
-            <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
-          ))}
-        </div>
+      <div className="fixed inset-0 z-[9999] pointer-events-none" style={{ animation: "nuke-shake 0.08s infinite" }}>
+        <NukeGlitch />
       </div>
     )}
     {(nuke.phase === "dead" || nuke.phase === "rebuilding") && (
       <div
         className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-        style={{ background: "#000", opacity: nuke.phase === "rebuilding" ? 0 : 1, transition: nuke.phase === "rebuilding" ? "opacity 1.5s" : "none" }}
+        style={{
+          background: "#f0f0f0",
+          opacity: nuke.phase === "rebuilding" ? 0 : 1,
+          transition: nuke.phase === "rebuilding" ? "opacity 1.5s" : "none",
+          fontFamily: "Arial, sans-serif",
+        }}
       >
-        <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
-          <div className="text-8xl mb-6">💀</div>
-          <div className="text-4xl font-black mb-3" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#ff2200" }}>WEBSITE DESTROYED</div>
-          <div className="text-lg mt-2 text-blink" style={{ color: "#ff8800" }}>rebuilding in progress...</div>
-          <div className="text-sm mt-4" style={{ color: "#555" }}>should&apos;ve pressed ABORT</div>
+        <div style={{ maxWidth: 520, width: "100%", padding: "0 24px" }}>
+          <div style={{ fontSize: 72, marginBottom: 8 }}>🔌</div>
+          <div style={{ fontSize: 28, fontWeight: 900, color: "#333", marginBottom: 8 }}>
+            This site can&apos;t be reached
+          </div>
+          <div style={{ fontSize: 15, color: "#555", marginBottom: 20 }}>
+            <strong>ishanpatel.dev</strong> refused to connect.
+          </div>
+          <div style={{ background: "#fff", border: "1px solid #ddd", borderRadius: 4, padding: "12px 16px", fontSize: 13, color: "#444", marginBottom: 16 }}>
+            Try:<br />
+            <ul style={{ margin: "8px 0 0 16px", padding: 0 }}>
+              <li>Checking the connection</li>
+              <li>Checking the proxy and the firewall</li>
+            </ul>
+          </div>
+          <div style={{ fontSize: 12, color: "#999", fontFamily: "monospace" }}>
+            ERR_CONNECTION_REFUSED — ishanpatel.dev took too long to respond.
+          </div>
+          <div style={{ fontSize: 11, color: "#bbb", marginTop: 8, fontFamily: "monospace" }}>
+            (you pressed the button. this is on you.)
+          </div>
         </div>
       </div>
     )}
