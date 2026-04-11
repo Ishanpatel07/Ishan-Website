@@ -321,8 +321,8 @@ function useNuke() {
         clearInterval(tick);
         setPhase("exploding");
         setTimeout(() => setPhase("dead"), 1200);
-        setTimeout(() => setPhase("rebuilding"), 4500);
-        setTimeout(() => setPhase("idle"), 6000);
+        setTimeout(() => setPhase("rebuilding"), 7000);
+        setTimeout(() => setPhase("idle"), 9000);
       }
     }, 1000);
   }
@@ -805,7 +805,19 @@ WARRANTY:
 Ships with 100% genuine effort.
 No refunds. No cap.
 
-LICENSE: Open to opportunities.`}</pre>
+LICENSE: Open to opportunities.
+
+SECRET FEATURES:
+- Try the Konami code (you know the one)
+- Click the visitor counter
+- Triple-click the HACKING badge
+- Click FIREWALL in the status bar
+- Double-click the EXPERIENCE heading
+- Click SKILLS & TOOLS heading
+- Click the ??? project (trust me)
+- Click INTERESTS title 5 times
+- Click the copyright 3 times
+- The red button is NOT safe to press`}</pre>
                 <div className="px-2 pb-2">
                   <NukeButton nuke={nuke} />
                 </div>
