@@ -643,6 +643,7 @@ export default function Home() {
   ];
 
   return (
+    <>
     <div
       className={shake.shaking ? "page-shake" : ""}
       style={{
@@ -1473,5 +1474,6 @@ SECRETS (shh):
         </div>
       </div>
     )}
+    </>
   );
 }
