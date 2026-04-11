@@ -353,12 +353,33 @@ function useRickroll() {
 }
 
 function RickrollModal({ onDismiss }: { onDismiss: () => void }) {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    audioRef.current?.play().catch(() => {});
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+    };
+  }, []);
+
+  function close() {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    onDismiss();
+  }
+
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ background: "rgba(0,0,0,0.85)" }} onClick={onDismiss}>
-      <div className="win95-card w-80">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center" style={{ background: "rgba(0,0,0,0.85)" }} onClick={close}>
+      <audio ref={audioRef} src="/rickroll.mp3" />
+      <div className="win95-card w-80" onClick={(e) => e.stopPropagation()}>
         <div className="title-bar flex justify-between">
           <span>SECRET_PROJECT.EXE</span>
-          <button onClick={onDismiss} className="text-white px-1 text-xs" style={{ background: "transparent", border: "1px solid #808080" }}>X</button>
+          <button onClick={close} className="text-white px-1 text-xs" style={{ background: "transparent", border: "1px solid #808080" }}>X</button>
         </div>
         <div className="win95-content text-center flex flex-col gap-3">
           <div className="text-4xl">🎵</div>
@@ -367,7 +388,7 @@ function RickrollModal({ onDismiss }: { onDismiss: () => void }) {
           </div>
           <div className="font-mono text-[11px] text-[#808080]">never gonna let you down</div>
           <div className="font-mono text-[11px] text-[#808080]">never gonna run around and desert you</div>
-          <button className="btn-90s text-[11px]" onClick={onDismiss}>close (if you can)</button>
+          <button className="btn-90s text-[11px]" onClick={close}>close (if you can)</button>
         </div>
       </div>
     </div>
