@@ -648,7 +648,7 @@ export default function Home() {
       style={{
         ...(agent.active ? { filter: "hue-rotate(100deg) saturate(1.5)", transition: "filter 0.5s" } : {}),
         ...(nuke.phase === "exploding" ? { animation: "nuke-shake 0.1s infinite", transformOrigin: "center" } : {}),
-        ...(nuke.phase === "dead" || nuke.phase === "rebuilding" ? { opacity: 0, transition: "opacity 0.8s" } : {}),
+        ...(nuke.phase === "dead" || nuke.phase === "rebuilding" || nuke.phase === "exploding" ? { visibility: "hidden" } : {}),
       }}
     >
 
@@ -1375,30 +1375,6 @@ SECRETS (shh):
         </div>
       )}
 
-      {/* Easter egg: Explosion burst */}
-      {nuke.phase === "exploding" && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none">
-          <div className="explosion-burst">
-            {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
-              <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Easter egg: Dead screen — stays until rebuilding */}
-      {(nuke.phase === "dead" || nuke.phase === "rebuilding") && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-          style={{ background: "#000", transition: nuke.phase === "rebuilding" ? "opacity 1.5s" : "none", opacity: nuke.phase === "rebuilding" ? 0 : 1 }}>
-          <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
-            <div className="text-8xl mb-6">💀</div>
-            <div className="text-4xl font-black mb-3" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#ff2200" }}>WEBSITE DESTROYED</div>
-            <div className="text-lg mt-2 text-blink" style={{ color: "#ff8800" }}>rebuilding in progress...</div>
-            <div className="text-sm mt-4" style={{ color: "#555" }}>should&apos;ve pressed ABORT</div>
-          </div>
-        </div>
-      )}
-
       {/* Easter egg: Rickroll */}
       {rickroll.show && <RickrollModal onDismiss={rickroll.dismiss} />}
 
@@ -1473,5 +1449,29 @@ SECRETS (shh):
       )}
 
     </div>
+
+    {/* Nuke overlays — outside main div so they're not hidden with it */}
+    {nuke.phase === "exploding" && (
+      <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none">
+        <div className="explosion-burst">
+          {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
+            <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
+          ))}
+        </div>
+      </div>
+    )}
+    {(nuke.phase === "dead" || nuke.phase === "rebuilding") && (
+      <div
+        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+        style={{ background: "#000", opacity: nuke.phase === "rebuilding" ? 0 : 1, transition: nuke.phase === "rebuilding" ? "opacity 1.5s" : "none" }}
+      >
+        <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
+          <div className="text-8xl mb-6">💀</div>
+          <div className="text-4xl font-black mb-3" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#ff2200" }}>WEBSITE DESTROYED</div>
+          <div className="text-lg mt-2 text-blink" style={{ color: "#ff8800" }}>rebuilding in progress...</div>
+          <div className="text-sm mt-4" style={{ color: "#555" }}>should&apos;ve pressed ABORT</div>
+        </div>
+      </div>
+    )}
   );
 }
