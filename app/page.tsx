@@ -321,8 +321,8 @@ function useNuke() {
         clearInterval(tick);
         setPhase("exploding");
         setTimeout(() => setPhase("dead"), 1200);
-        setTimeout(() => setPhase("rebuilding"), 7000);
-        setTimeout(() => setPhase("idle"), 9000);
+        setTimeout(() => setPhase("rebuilding"), 12000);
+        setTimeout(() => setPhase("idle"), 14000);
       }
     }, 1000);
   }
@@ -788,36 +788,23 @@ export default function Home() {
                 >{`ISHAN_PATEL v1.0 -- README
 ==========================
 
-INSTALLATION:
-Simply hire me. No dependencies required.
+INSTALL: hire me. no setup required.
 
-KNOWN BUGS:
-- Occasionally forgets to sleep()
-- Will talk about cybersecurity unprompted
-- Japanese still buffering...
+BUGS:
+- forgets to sleep()
+- talks about cyber unprompted
+- Japanese: still buffering
 
-SYSTEM REQUIREMENTS:
-- Internship opportunity
-- Wi-Fi (preferably fast)
-- Coffee (any version)
+REQUIREMENTS:
+- internship opportunity
+- coffee (any version)
 
-WARRANTY:
-Ships with 100% genuine effort.
-No refunds. No cap.
-
-LICENSE: Open to opportunities.
-
-SECRET FEATURES:
-- Try the Konami code (you know the one)
-- Click the visitor counter
-- Triple-click the HACKING badge
-- Click FIREWALL in the status bar
-- Double-click the EXPERIENCE heading
-- Click SKILLS & TOOLS heading
-- Click the ??? project (trust me)
-- Click INTERESTS title 5 times
-- Click the copyright 3 times
-- The red button is NOT safe to press`}</pre>
+SECRETS (shh):
+- buttons do things. click them.
+- try ↑↑↓↓←→←→BA on keyboard
+- the ??? project is not what it seems
+- click stuff 3-5x and see what happens
+- there is a red button. your call.`}</pre>
                 <div className="px-2 pb-2">
                   <NukeButton nuke={nuke} />
                 </div>
