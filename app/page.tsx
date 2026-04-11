@@ -139,14 +139,32 @@ function HrGroove() {
   return <div className="hr-groove w-full" />;
 }
 
+const SKILL_AUDIO: Record<string, string> = {
+  "English":  "/english.m4a",
+  "Hindi":    "/hindi.m4a",
+  "Japanese": "/japanese.m4a",
+  "Python":   "/python-hiss.mp3",
+};
+
 function SkillRow({ label }: { label: string }) {
+  const hasAudio = label in SKILL_AUDIO;
+
+  function play() {
+    if (!hasAudio) return;
+    const audio = new Audio(SKILL_AUDIO[label]);
+    audio.play().catch(() => {});
+  }
+
   return (
     <div
       className="flex items-center gap-2 border-b border-[#808080] py-1.5 px-3 text-[14px]"
-      style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}
+      style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', cursor: hasAudio ? "pointer" : "default" }}
+      onClick={play}
+      title={hasAudio ? (label === "Python" ? "🐍" : "🔊 click to hear") : undefined}
     >
       <span className="text-[#00aa00] font-black mr-1">►</span>
       {label}
+      {hasAudio && <span className="ml-auto text-[10px] text-[#808080]">{label === "Python" ? "🐍" : "🔊"}</span>}
     </div>
   );
 }
