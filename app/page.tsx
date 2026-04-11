@@ -339,8 +339,8 @@ function useNuke() {
         clearInterval(tick);
         setPhase("exploding");
         setTimeout(() => setPhase("dead"), 1200);
-        setTimeout(() => setPhase("rebuilding"), 12000);
-        setTimeout(() => setPhase("idle"), 14000);
+        setTimeout(() => setPhase("rebuilding"), 10000);
+        setTimeout(() => setPhase("idle"), 12000);
       }
     }, 1000);
   }
@@ -648,8 +648,7 @@ export default function Home() {
       style={{
         ...(agent.active ? { filter: "hue-rotate(100deg) saturate(1.5)", transition: "filter 0.5s" } : {}),
         ...(nuke.phase === "exploding" ? { animation: "nuke-shake 0.1s infinite", transformOrigin: "center" } : {}),
-        ...(nuke.phase === "dead" ? { opacity: 0, transition: "opacity 0.5s" } : {}),
-        ...(nuke.phase === "rebuilding" ? { opacity: 1, transition: "opacity 1s" } : {}),
+        ...(nuke.phase === "dead" || nuke.phase === "rebuilding" ? { opacity: 0, transition: "opacity 0.8s" } : {}),
       }}
     >
 
@@ -1376,24 +1375,27 @@ SECRETS (shh):
         </div>
       )}
 
-      {/* Easter egg: Explosion screen */}
-      {(nuke.phase === "exploding" || nuke.phase === "dead") && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none"
-          style={{ background: nuke.phase === "dead" ? "#000" : "transparent" }}>
-          {nuke.phase === "exploding" && (
-            <div className="explosion-burst">
-              {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
-                <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
-              ))}
-            </div>
-          )}
-          {nuke.phase === "dead" && (
-            <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
-              <div className="text-6xl mb-4">💀</div>
-              <div className="text-2xl font-black" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>WEBSITE DESTROYED</div>
-              <div className="text-sm mt-2 text-[#ff8800]">rebuilding in progress...</div>
-            </div>
-          )}
+      {/* Easter egg: Explosion burst */}
+      {nuke.phase === "exploding" && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center pointer-events-none">
+          <div className="explosion-burst">
+            {["💥","🔥","💣","🔥","💥","🔥","💥","🔥","💥","💣","🔥","💥"].map((e, i) => (
+              <span key={i} className="explosion-piece" style={{ "--i": i, "--total": 12 } as React.CSSProperties}>{e}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Easter egg: Dead screen — stays until rebuilding */}
+      {(nuke.phase === "dead" || nuke.phase === "rebuilding") && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+          style={{ background: "#000", transition: nuke.phase === "rebuilding" ? "opacity 1.5s" : "none", opacity: nuke.phase === "rebuilding" ? 0 : 1 }}>
+          <div className="text-center" style={{ fontFamily: '"Courier New", monospace', color: "#ff4400" }}>
+            <div className="text-8xl mb-6">💀</div>
+            <div className="text-4xl font-black mb-3" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#ff2200" }}>WEBSITE DESTROYED</div>
+            <div className="text-lg mt-2 text-blink" style={{ color: "#ff8800" }}>rebuilding in progress...</div>
+            <div className="text-sm mt-4" style={{ color: "#555" }}>should&apos;ve pressed ABORT</div>
+          </div>
         </div>
       )}
 
