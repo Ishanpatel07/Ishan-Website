@@ -206,6 +206,22 @@ a:visited { color: #800080; }
 a:hover   { color: #ff0000; }
 a:active  { color: #ff0000; }
 
+/* Button links — never let global a color bleed in */
+a.btn-90s,
+a.btn-90s:visited,
+a.btn-90s:hover,
+a.btn-90s:active {
+  color: #000000;
+  text-decoration: none;
+}
+a.btn-90s.btn-90s-blue,
+a.btn-90s.btn-90s-blue:visited,
+a.btn-90s.btn-90s-blue:hover,
+a.btn-90s.btn-90s-blue:active {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 /* Hit counter */
 .hit-counter {
   background: #000000;
