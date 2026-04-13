@@ -307,7 +307,7 @@ function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
   const [msg, setMsg] = useState("");
 
   function handleIM() {
-    window.open("mailto:Ishan.patel2807@gmail.com", "_blank");
+    window.open("https://www.linkedin.com/in/ishanpatel09/", "_blank");
     onDismiss();
   }
   function handleBlock() {
