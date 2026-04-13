@@ -306,34 +306,34 @@ function useAIMNotif() {
 function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
   return (
     <div
-      className="win95-card fixed bottom-6 left-6 z-[9990] w-64"
-      style={{ boxShadow: "4px 4px 0 #000000" }}
+      className="win95-card fixed bottom-6 left-6 z-[9990] w-56"
+      style={{ boxShadow: "4px 4px 0 #000000", fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}
     >
       <div className="title-bar flex justify-between items-center">
-        <span>💬 AIM</span>
+        <span style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontWeight: 700, fontSize: 13 }}>💬 AIM</span>
         <button
           onClick={onDismiss}
-          className="text-white px-1 text-xs"
-          style={{ background: "transparent", border: "1px solid #808080" }}
+          className="text-white px-1"
+          style={{ background: "transparent", border: "1px solid #808080", fontSize: 11, lineHeight: 1.4 }}
         >X</button>
       </div>
-      <div className="win95-content flex flex-col gap-2">
+      <div className="win95-content flex flex-col gap-2" style={{ padding: "10px 12px" }}>
         <div className="flex items-center gap-2">
-          <span style={{ fontSize: 20 }}>🟡</span>
+          <span style={{ fontSize: 18 }}>🟡</span>
           <div>
-            <div className="font-black text-[12px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+            <div style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontWeight: 700, fontSize: 13 }}>
               CyberGuru2007
             </div>
-            <div className="font-mono text-[11px] text-[#808080]">has signed on.</div>
+            <div style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontSize: 12, color: "#666" }}>has signed on.</div>
           </div>
         </div>
-        <div className="font-mono text-[11px] bevel-in p-2" style={{ background: "#fff" }}>
-          CyberGuru2007: yo dude sick portfolio lol
+        <div className="bevel-in p-2" style={{ background: "#fff", fontSize: 12, fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}>
+          CyberGuru2007: yo sick portfolio lol
         </div>
-        <div className="flex gap-2">
-          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>IM</button>
-          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>Block</button>
-          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>Ignore</button>
+        <div className="flex gap-1 justify-between">
+          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>IM</button>
+          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>Block</button>
+          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>Ignore</button>
         </div>
       </div>
     </div>
@@ -1438,12 +1438,8 @@ SECRETS (shh):
       {/* ══════════════════════════════════════════════════════
           CTA — CONSTRUCTION STRIPE SECTION
           ══════════════════════════════════════════════════════ */}
-      <section className="py-2 bg-construction" aria-label="Attention section">
-        <div className="text-center text-[11px] font-black uppercase py-0.5" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-          <span className="spin-slow" style={{ display: "inline-block" }}>🚧</span>
-          {" "}SITE UNDER CONSTRUCTION — PLEASE PARDON OUR DUST{" "}
-          <span className="spin-slow" style={{ display: "inline-block" }}>🚧</span>
-        </div>
+      <section aria-label="Attention section" className="overflow-hidden" style={{ height: 20 }}>
+        <div className="construction-scroll h-full" />
       </section>
 
       <section
@@ -1546,7 +1542,9 @@ SECRETS (shh):
         </div>
       </section>
 
-      <div className="py-2 bg-construction" aria-hidden="true" />
+      <div className="overflow-hidden" style={{ height: 20 }} aria-hidden="true">
+        <div className="construction-scroll h-full" />
+      </div>
 
       {/* ── FOOTER ── */}
       <footer
