@@ -1032,34 +1032,16 @@ export default function Home() {
 INSTALL: hire me. no setup required.
 
 FEATURES:
-[*] VOICE CLIPS
-    click English, Hindi, or Japanese
-    in the Skills section to hear me
-    speak them. click Python for a surprise.
-
-[*] EASTER EGGS (10+ hidden)
-    - type ↑↑↓↓←→←→BA for a classic
-    - click SKILLS title to get locked out
-    - click EXPERIENCE title x2 to feel it
-    - click HACKING badge x3 for the matrix
-    - click the copyright x3 for a secret
-    - click INTERESTS title x5 to go classified
-    - click the visitor counter for a hack
-    - the ??? project is NOT what it seems
-    - there is a red button. your call.
-
-[*] NUKE BUTTON (below)
-    this will destroy the website.
-    temporarily. probably.
+- click languages in Skills to hear me speak
+- 10+ easter eggs hidden around the site
+- type ↑↑↓↓←→←→BA on your keyboard
+- click the ??? project (trust me)
+- red button below. your call.
 
 BUGS:
 - forgets to sleep()
 - talks about cyber unprompted
-- Japanese: still buffering
-
-REQUIREMENTS:
-- internship opportunity
-- coffee (any version)`}</pre>
+- Japanese: still buffering`}</pre>
                 <div className="px-2 pb-2">
                   <NukeButton nuke={nuke} />
                 </div>
