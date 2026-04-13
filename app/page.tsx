@@ -63,6 +63,7 @@ const projects = [
     type: "Event / Operations",
     desc: "Helped organize GSU's flagship 24-hour hackathon. 350–400+ attendees, 8+ corporate sponsors, casino-style side events (Blackjack, Roulette, Texas Hold'em). Handled all finance, bookkeeping, and floated across operations wherever needed.",
     tag: "SHIPPED" as const,
+    href: "https://hacklanta.dev/archive/spring26",
   },
   {
     name: "DropCart",
@@ -1295,6 +1296,18 @@ BUGS:
                   </span>
                 </div>
                 <p className="text-[14px] leading-6">{proj.desc}</p>
+                {"href" in proj && proj.href && (
+                  <a
+                    href={proj.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-90s text-[11px] px-3 py-1 self-start"
+                    style={{ textDecoration: "none" }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    VIEW ARCHIVE ↗
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -1344,7 +1357,11 @@ BUGS:
                     <span className="font-mono text-[12px] text-[#808080]">
                       {exp.period}
                     </span>
-                    {exp.hacklanta && <Badge label="HACKLANTA 2026" pulse />}
+                    {exp.hacklanta && (
+                      <a href="https://hacklanta.dev/archive/spring26" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                        <Badge label="HACKLANTA 2026 ↗" pulse />
+                      </a>
+                    )}
                   </div>
                   <ul className="list-none p-0 m-0">
                     {exp.bullets.map((b, j) => (
