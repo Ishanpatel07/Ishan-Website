@@ -1543,11 +1543,13 @@ SECRETS (shh):
                 </div>
 
                 <a
-                  href="mailto:Ishan.patel2807@gmail.com"
+                  href="https://www.linkedin.com/in/ishanpatel09/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-90s btn-90s-blue text-center w-full"
                   style={{ textDecoration: "none", display: "block" }}
                 >
-                  ► SEND EMAIL NOW
+                  ► CONNECT WITH ME NOW
                 </a>
               </div>
             </div>
