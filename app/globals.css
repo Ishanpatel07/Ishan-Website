@@ -137,10 +137,18 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Scrolling construction stripe */
 @keyframes construction-slide {
-  from { background-position: 0 0; }
-  to   { background-position: 80px 80px; }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-80px); }
 }
 .construction-scroll {
+  position: relative;
+  overflow: hidden;
+}
+.construction-scroll::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: calc(100% + 80px);
   background: repeating-linear-gradient(
     -45deg,
     #ffcc00 0px,
@@ -148,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
     #111100 20px,
     #111100 40px
   );
-  animation: construction-slide 1.2s linear infinite;
+  animation: construction-slide 1s linear infinite;
 }
 
 .title-bar {

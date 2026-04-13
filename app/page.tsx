@@ -876,6 +876,38 @@ export default function Home() {
       }}
     >
 
+      {/* ── RECRUITER TL;DR BAR ── */}
+      <div
+        className="border-b-2 border-[#000000]"
+        style={{ background: "#ffff00" }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-wrap items-center gap-x-6 gap-y-1">
+          <span className="font-black text-[11px] uppercase shrink-0" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000000" }}>
+            ⚡ RECRUITER TL;DR:
+          </span>
+          {[
+            "ISC2 Certified ✓",
+            "Security+ in progress",
+            "Hacklanta 2026 Organizer",
+            "100+ Sales Calls",
+            "Available Now",
+          ].map((item) => (
+            <span key={item} className="font-black text-[12px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>
+              ► {item}
+            </span>
+          ))}
+          <a
+            href="https://www.linkedin.com/in/ishanpatel09/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-90s btn-90s-blue ml-auto text-[11px] px-3 py-1 shrink-0"
+            style={{ textDecoration: "none" }}
+          >
+            CONNECT →
+          </a>
+        </div>
+      </div>
+
       {/* ── MARQUEE ANNOUNCEMENT BAR ── */}
       <div
         className="border-b-2 border-[#000000] py-1"
@@ -976,23 +1008,32 @@ export default function Home() {
                   </span>
                 </div>
 
-                <p className="text-[15px] leading-6">
-                  Freshman at <strong>Georgia State University</strong> majoring in Computer
-                  Information Systems with a <strong>Cybersecurity concentration</strong> and
-                  a minor in Computer Science, working toward transferring to{" "}
-                  <strong>Georgia Tech</strong>. Self-taught across multiple programming
-                  languages and AI-powered tools, with real-world experience in{" "}
-                  <strong>sales and e-commerce</strong>. Helped organize{" "}
-                  <strong>Hacklanta 2026</strong>, one of the Southeast&apos;s largest
-                  student-run hackathons. Actively seeking{" "}
-                  <strong>internships in cybersecurity</strong> and{" "}
-                  <strong>sales engineering</strong>.
+                {/* At-a-glance highlights */}
+                <div className="grid grid-cols-2 gap-1">
+                  {[
+                    { icon: "🏅", text: "ISC2 Certified in Cybersecurity" },
+                    { icon: "📋", text: "CompTIA Security+ (Jun 2026)" },
+                    { icon: "🎯", text: "Hacklanta 2026 — 400+ attendees" },
+                    { icon: "📞", text: "100+ outbound sales calls" },
+                  ].map((item) => (
+                    <div key={item.text} className="flex items-center gap-1.5 bevel-in px-2 py-1" style={{ background: "#fff" }}>
+                      <span style={{ fontSize: 13 }}>{item.icon}</span>
+                      <span className="text-[11px] font-black leading-tight" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-[14px] leading-6">
+                  Freshman at <strong>Georgia State University</strong> — CIS major,{" "}
+                  <strong>Cybersecurity concentration</strong>, CS minor. Targeting transfer to{" "}
+                  <strong>Georgia Tech</strong>. Real-world experience in{" "}
+                  <strong>sales, e-commerce, and event operations</strong>. Built things, sold things, organized things. Now looking to break into{" "}
+                  <strong>cybersecurity</strong>.
                 </p>
 
-                <p className="text-[13px] leading-5 font-mono" style={{ color: "#808080" }}>
+                <p className="text-[12px] leading-5 font-mono" style={{ color: "#808080" }}>
                   <span className="text-[#00aa00] font-black">C:\&gt;</span>{" "}
-                  Currently building: this website, a cybersecurity homelab, and the confidence
-                  to cold email people way above my level.
+                  Currently: homelab, Security+, and cold emailing people way above my level.
                 </p>
 
                 <div className="flex gap-2 flex-wrap">
