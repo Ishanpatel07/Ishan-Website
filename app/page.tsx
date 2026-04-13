@@ -1031,6 +1031,27 @@ export default function Home() {
 
 INSTALL: hire me. no setup required.
 
+FEATURES:
+[*] VOICE CLIPS
+    click English, Hindi, or Japanese
+    in the Skills section to hear me
+    speak them. click Python for a surprise.
+
+[*] EASTER EGGS (10+ hidden)
+    - type ↑↑↓↓←→←→BA for a classic
+    - click SKILLS title to get locked out
+    - click EXPERIENCE title x2 to feel it
+    - click HACKING badge x3 for the matrix
+    - click the copyright x3 for a secret
+    - click INTERESTS title x5 to go classified
+    - click the visitor counter for a hack
+    - the ??? project is NOT what it seems
+    - there is a red button. your call.
+
+[*] NUKE BUTTON (below)
+    this will destroy the website.
+    temporarily. probably.
+
 BUGS:
 - forgets to sleep()
 - talks about cyber unprompted
@@ -1038,14 +1059,7 @@ BUGS:
 
 REQUIREMENTS:
 - internship opportunity
-- coffee (any version)
-
-SECRETS (shh):
-- buttons do things. click them.
-- try ↑↑↓↓←→←→BA on keyboard
-- the ??? project is not what it seems
-- click stuff 3-5x and see what happens
-- there is a red button. your call.`}</pre>
+- coffee (any version)`}</pre>
                 <div className="px-2 pb-2">
                   <NukeButton nuke={nuke} />
                 </div>
@@ -1189,8 +1203,13 @@ SECRETS (shh):
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {Object.entries(skills).map(([category, items]) => (
-            <Win95Card key={category} title={category} icon="🔧">
+            <Win95Card key={category} title={category} icon={category === "Spoken Languages" ? "🔊" : "🔧"}>
               <div className="p-0 -m-4">
+                {category === "Spoken Languages" && (
+                  <div className="px-3 py-1.5 text-[10px] font-mono border-b border-[#808080]" style={{ background: "#ffffcc", color: "#808000" }}>
+                    ► click a language to hear me speak it
+                  </div>
+                )}
                 {items.map((skill) => (
                   <SkillRow key={skill} label={skill} />
                 ))}
