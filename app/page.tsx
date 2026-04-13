@@ -304,13 +304,28 @@ function useAIMNotif() {
 }
 
 function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
+  const [msg, setMsg] = useState("");
+
+  function handleIM() {
+    window.open("mailto:Ishan.patel2807@gmail.com", "_blank");
+    onDismiss();
+  }
+  function handleBlock() {
+    setMsg("CyberGuru2007 has been blocked.");
+    setTimeout(onDismiss, 1200);
+  }
+  function handleIgnore() {
+    setMsg("Message ignored. (it was a compliment tho)");
+    setTimeout(onDismiss, 1400);
+  }
+
   return (
     <div
-      className="win95-card fixed bottom-6 left-6 z-[9990] w-56"
-      style={{ boxShadow: "4px 4px 0 #000000", fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}
+      className="win95-card fixed bottom-6 left-6 z-[9990]"
+      style={{ boxShadow: "4px 4px 0 #000000", fontFamily: '"MS Sans Serif", Tahoma, sans-serif', width: 260 }}
     >
       <div className="title-bar flex justify-between items-center">
-        <span style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontWeight: 700, fontSize: 13 }}>💬 AIM</span>
+        <span style={{ fontWeight: 700, fontSize: 13 }}>💬 AIM</span>
         <button
           onClick={onDismiss}
           className="text-white px-1"
@@ -321,19 +336,17 @@ function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
         <div className="flex items-center gap-2">
           <span style={{ fontSize: 18 }}>🟡</span>
           <div>
-            <div style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontWeight: 700, fontSize: 13 }}>
-              CyberGuru2007
-            </div>
-            <div style={{ fontFamily: '"MS Sans Serif", Tahoma, sans-serif', fontSize: 12, color: "#666" }}>has signed on.</div>
+            <div style={{ fontWeight: 700, fontSize: 13 }}>CyberGuru2007</div>
+            <div style={{ fontSize: 12, color: "#666" }}>has signed on.</div>
           </div>
         </div>
-        <div className="bevel-in p-2" style={{ background: "#fff", fontSize: 12, fontFamily: '"MS Sans Serif", Tahoma, sans-serif' }}>
-          CyberGuru2007: yo sick portfolio lol
+        <div className="bevel-in p-2" style={{ background: "#fff", fontSize: 12 }}>
+          {msg || "CyberGuru2007: yo sick portfolio lol"}
         </div>
-        <div className="flex gap-1 justify-between">
-          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>IM</button>
-          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>Block</button>
-          <button className="btn-90s" style={{ fontSize: 11, padding: "3px 10px" }} onClick={onDismiss}>Ignore</button>
+        <div className="flex gap-1">
+          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleIM}>IM</button>
+          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleBlock}>Block</button>
+          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleIgnore}>Ignore</button>
         </div>
       </div>
     </div>
