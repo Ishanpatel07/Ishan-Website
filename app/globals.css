@@ -138,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Scrolling construction stripe */
 @keyframes construction-slide {
   from { transform: translateX(0); }
-  to   { transform: translateX(-80px); }
+  to   { transform: translateX(-56.57px); }
 }
 .construction-scroll {
   position: relative;
@@ -148,15 +148,15 @@ h1, h2, h3, h4, h5, h6 {
   content: "";
   position: absolute;
   inset: 0;
-  width: calc(100% + 80px);
+  width: calc(100% + 60px);
   background: repeating-linear-gradient(
     -45deg,
-    #ffcc00 0px,
-    #ffcc00 20px,
-    #111100 20px,
-    #111100 40px
+    #ffd000 0px,
+    #ffd000 20px,
+    #1a1400 20px,
+    #1a1400 40px
   );
-  animation: construction-slide 1s linear infinite;
+  animation: construction-slide 0.7s linear infinite;
 }
 
 .title-bar {

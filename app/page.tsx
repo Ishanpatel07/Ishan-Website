@@ -876,38 +876,6 @@ export default function Home() {
       }}
     >
 
-      {/* ── RECRUITER TL;DR BAR ── */}
-      <div
-        className="border-b-2 border-[#000000]"
-        style={{ background: "#ffff00" }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-wrap items-center gap-x-6 gap-y-1">
-          <span className="font-black text-[11px] uppercase shrink-0" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000000" }}>
-            ⚡ RECRUITER TL;DR:
-          </span>
-          {[
-            "ISC2 Certified ✓",
-            "Security+ in progress",
-            "Hacklanta 2026 Organizer",
-            "100+ Sales Calls",
-            "Available Now",
-          ].map((item) => (
-            <span key={item} className="font-black text-[12px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>
-              ► {item}
-            </span>
-          ))}
-          <a
-            href="https://www.linkedin.com/in/ishanpatel09/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-90s btn-90s-blue ml-auto text-[11px] px-3 py-1 shrink-0"
-            style={{ textDecoration: "none" }}
-          >
-            CONNECT →
-          </a>
-        </div>
-      </div>
-
       {/* ── MARQUEE ANNOUNCEMENT BAR ── */}
       <div
         className="border-b-2 border-[#000000] py-1"
@@ -1009,16 +977,19 @@ export default function Home() {
                 </div>
 
                 {/* At-a-glance highlights */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="grid grid-cols-2 gap-1.5">
                   {[
-                    { icon: "🏅", text: "ISC2 Certified in Cybersecurity" },
-                    { icon: "📋", text: "CompTIA Security+ (Jun 2026)" },
-                    { icon: "🎯", text: "Hacklanta 2026 — 400+ attendees" },
-                    { icon: "📞", text: "100+ outbound sales calls" },
+                    { icon: "🏅", label: "CERTIFIED", text: "ISC2 CC — earned" },
+                    { icon: "📋", label: "IN PROGRESS", text: "CompTIA Security+" },
+                    { icon: "🎯", label: "ORGANIZED", text: "Hacklanta 2026, 400+ ppl" },
+                    { icon: "📞", label: "SALES", text: "100+ cold calls, real pipeline" },
                   ].map((item) => (
-                    <div key={item.text} className="flex items-center gap-1.5 bevel-in px-2 py-1" style={{ background: "#fff" }}>
-                      <span style={{ fontSize: 13 }}>{item.icon}</span>
-                      <span className="text-[11px] font-black leading-tight" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>{item.text}</span>
+                    <div key={item.text} className="bevel-in px-2 py-1.5" style={{ background: "#fff" }}>
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span style={{ fontSize: 12 }}>{item.icon}</span>
+                        <span className="text-[9px] font-black uppercase tracking-wide" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>{item.label}</span>
+                      </div>
+                      <div className="text-[12px] font-black leading-tight" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>{item.text}</div>
                     </div>
                   ))}
                 </div>
