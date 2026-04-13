@@ -335,6 +335,23 @@ p, pre, span, li, h1, h2, h3, h4, h5, h6, a {
   border-color: #ffffff #808080 #808080 #ffffff;
 }
 
+/* Nostalgia: bouncing badge */
+@keyframes bounce-badge {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+.badge-bounce {
+  animation: bounce-badge 0.6s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Nostalgia: spinning icon (like old geocities spinners) */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.spin-slow { animation: spin-slow 3s linear infinite; display: inline-block; }
+
 /* ============================================================
    REDUCED MOTION
    ============================================================ */

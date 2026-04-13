@@ -121,10 +121,10 @@ function Win95Card({
   );
 }
 
-function Badge({ label, pulse }: { label: string; pulse?: boolean }) {
+function Badge({ label, pulse, bounce }: { label: string; pulse?: boolean; bounce?: boolean }) {
   return (
     <span
-      className={`inline-block px-2 py-0 text-[11px] font-black uppercase tracking-wide text-white bg-[#ff0000] border-2 border-solid leading-5 ${pulse ? "badge-pulse" : ""}`}
+      className={`inline-block px-2 py-0 text-[11px] font-black uppercase tracking-wide text-white bg-[#ff0000] border-2 border-solid leading-5 ${pulse ? "badge-pulse" : ""} ${bounce ? "badge-bounce" : ""}`}
       style={{
         borderColor: "#ff5555 #800000 #800000 #ff5555",
         fontFamily: '"Arial Black", Impact, sans-serif',
@@ -165,6 +165,177 @@ function SkillRow({ label }: { label: string }) {
       <span className="text-[#00aa00] font-black mr-1">►</span>
       {label}
       {hasAudio && <span className="ml-auto text-[10px] text-[#808080]">{label === "Python" ? "🐍" : "🔊"}</span>}
+    </div>
+  );
+}
+
+/* ============================================================
+   NOSTALGIA
+   ============================================================ */
+
+function useStartupSplash() {
+  const [show, setShow] = useState(true);
+  const hasShown = useRef(false);
+
+  useEffect(() => {
+    if (hasShown.current) return;
+    hasShown.current = true;
+    // 7 steps × 320ms + 400ms fade = ~2640ms total
+    const t = setTimeout(() => setShow(false), 7 * 320 + 400);
+    return () => clearTimeout(t);
+  }, []);
+
+  return { show };
+}
+
+function StartupSplash() {
+  return (
+    <div
+      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center"
+      style={{ background: "#000080", fontFamily: '"Arial Black", Impact, sans-serif' }}
+    >
+      <div style={{ maxWidth: 480, width: "100%", padding: "0 32px", textAlign: "center" }}>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>🖥️</div>
+        <div style={{ color: "#ffffff", fontSize: 28, fontWeight: 900, marginBottom: 4, letterSpacing: 2 }}>
+          ISHAN PATEL
+        </div>
+        <div style={{ color: "#aaaaff", fontSize: 13, marginBottom: 32, fontFamily: '"Courier New", monospace', fontWeight: 400 }}>
+          Portfolio OS v1.0 — 1997 Edition
+        </div>
+        <_SplashProgressBar />
+        <div style={{ color: "#aaaaaa", fontSize: 11, marginTop: 12, fontFamily: '"Courier New", monospace', fontWeight: 400 }}>
+          Please wait while Windows loads your experience...
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function _SplashProgressBar() {
+  const [progress, setProgress] = useState(0);
+  const [statusMsg, setStatusMsg] = useState("Loading ISHAN_PATEL.EXE...");
+
+  useEffect(() => {
+    const steps = [
+      { msg: "Loading ISHAN_PATEL.EXE...", pct: 15 },
+      { msg: "Initializing cyber protocols...", pct: 30 },
+      { msg: "Checking for viruses... none found (probably)", pct: 48 },
+      { msg: "Loading skills database...", pct: 62 },
+      { msg: "Connecting to mainframe...", pct: 78 },
+      { msg: "Almost there...", pct: 91 },
+      { msg: "Welcome.", pct: 100 },
+    ];
+    let i = 0;
+    const tick = setInterval(() => {
+      if (i >= steps.length) { clearInterval(tick); return; }
+      setStatusMsg(steps[i].msg);
+      setProgress(steps[i].pct);
+      i++;
+    }, 320);
+    return () => clearInterval(tick);
+  }, []);
+
+  return (
+    <>
+      <div style={{ color: "#ccccff", fontSize: 12, marginBottom: 8, fontFamily: '"Courier New", monospace', fontWeight: 400, minHeight: 20 }}>
+        {statusMsg}
+      </div>
+      <div style={{ width: "100%", height: 20, background: "#000060", border: "2px solid", borderColor: "#808080 #ffffff #ffffff #808080" }}>
+        <div style={{ width: `${progress}%`, height: "100%", background: "linear-gradient(to right, #0000cc, #4444ff)", transition: "width 0.3s ease" }} />
+      </div>
+    </>
+  );
+}
+
+// AOL "You've Got Mail" notification
+function useAOLMail() {
+  const [show, setShow] = useState(false);
+  const shown = useRef(false);
+  useEffect(() => {
+    if (shown.current) return;
+    shown.current = true;
+    const t = setTimeout(() => setShow(true), 3200);
+    return () => clearTimeout(t);
+  }, []);
+  return { show, dismiss: () => setShow(false) };
+}
+
+function AOLMailPopup({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <div
+      className="win95-card fixed bottom-6 right-6 z-[9990] w-72"
+      style={{ boxShadow: "4px 4px 0 #000000" }}
+    >
+      <div className="title-bar flex justify-between items-center">
+        <span>📬 AOL Instant Messenger</span>
+        <button
+          onClick={onDismiss}
+          className="text-white px-1 text-xs"
+          style={{ background: "transparent", border: "1px solid #808080" }}
+        >X</button>
+      </div>
+      <div className="win95-content flex flex-col gap-2 text-center">
+        <div style={{ fontSize: 32 }}>📧</div>
+        <div className="font-black text-[16px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>
+          You&apos;ve Got Mail!
+        </div>
+        <div className="font-mono text-[11px] text-[#808080]">From: recruiter@company.com</div>
+        <div className="font-mono text-[11px]">&ldquo;Hey, we saw your portfolio...&rdquo;</div>
+        <div className="flex gap-2 justify-center mt-1">
+          <a href="mailto:Ishan.patel2807@gmail.com" className="btn-90s btn-90s-blue text-[11px] px-3" style={{ textDecoration: "none" }}>Read</a>
+          <button className="btn-90s text-[11px] px-3" onClick={onDismiss}>Later</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// AIM buddy sign-on
+function useAIMNotif() {
+  const [show, setShow] = useState(false);
+  const shown = useRef(false);
+  useEffect(() => {
+    if (shown.current) return;
+    shown.current = true;
+    const t = setTimeout(() => setShow(true), 7500);
+    return () => clearTimeout(t);
+  }, []);
+  return { show, dismiss: () => setShow(false) };
+}
+
+function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
+  return (
+    <div
+      className="win95-card fixed bottom-6 left-6 z-[9990] w-64"
+      style={{ boxShadow: "4px 4px 0 #000000" }}
+    >
+      <div className="title-bar flex justify-between items-center">
+        <span>💬 AIM</span>
+        <button
+          onClick={onDismiss}
+          className="text-white px-1 text-xs"
+          style={{ background: "transparent", border: "1px solid #808080" }}
+        >X</button>
+      </div>
+      <div className="win95-content flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <span style={{ fontSize: 20 }}>🟡</span>
+          <div>
+            <div className="font-black text-[12px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+              CyberGuru2007
+            </div>
+            <div className="font-mono text-[11px] text-[#808080]">has signed on.</div>
+          </div>
+        </div>
+        <div className="font-mono text-[11px] bevel-in p-2" style={{ background: "#fff" }}>
+          CyberGuru2007: yo dude sick portfolio lol
+        </div>
+        <div className="flex gap-2">
+          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>IM</button>
+          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>Block</button>
+          <button className="btn-90s text-[10px] px-2 py-0.5" onClick={onDismiss}>Ignore</button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -647,6 +818,9 @@ export default function Home() {
   const shake = usePageShake();
   const agent = useAgentMode();
   const [hireMeText, setHireMeText] = useState("► HIRE ME");
+  const splash = useStartupSplash();
+  const aolMail = useAOLMail();
+  const aimNotif = useAIMNotif();
 
   useEffect(() => {
     fetch("/api/visitors")
@@ -764,7 +938,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex gap-2 flex-wrap">
-                  <Badge label="NEW" pulse />
+                  <Badge label="NEW" pulse bounce />
                   <span
                     className="inline-block px-2 py-0 text-[11px] font-black uppercase text-white leading-5"
                     style={{
@@ -1264,7 +1438,13 @@ SECRETS (shh):
       {/* ══════════════════════════════════════════════════════
           CTA — CONSTRUCTION STRIPE SECTION
           ══════════════════════════════════════════════════════ */}
-      <section className="py-2 bg-construction" aria-label="Attention section" />
+      <section className="py-2 bg-construction" aria-label="Attention section">
+        <div className="text-center text-[11px] font-black uppercase py-0.5" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
+          <span className="spin-slow" style={{ display: "inline-block" }}>🚧</span>
+          {" "}SITE UNDER CONSTRUCTION — PLEASE PARDON OUR DUST{" "}
+          <span className="spin-slow" style={{ display: "inline-block" }}>🚧</span>
+        </div>
+      </section>
 
       <section
         id="contact"
@@ -1391,6 +1571,12 @@ SECRETS (shh):
           >
             ★ UNDER CONSTRUCTION ★
           </span>
+          <span
+            className="font-mono text-[10px]"
+            style={{ color: "#aaaaff" }}
+          >
+            🌐 Best viewed in Internet Explorer 6.0 @ 800×600
+          </span>
         </div>
       </footer>
 
@@ -1486,6 +1672,15 @@ SECRETS (shh):
       )}
 
     </div>
+
+    {/* Nostalgia: startup splash */}
+    {splash.show && <StartupSplash />}
+
+    {/* Nostalgia: AOL mail popup */}
+    {aolMail.show && <AOLMailPopup onDismiss={aolMail.dismiss} />}
+
+    {/* Nostalgia: AIM buddy notification */}
+    {aimNotif.show && <AIMNotif onDismiss={aimNotif.dismiss} />}
 
     {/* Nuke overlays — outside main div so they're not hidden with it */}
     {nuke.phase === "exploding" && (
