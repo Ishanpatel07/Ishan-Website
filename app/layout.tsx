@@ -14,6 +14,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" style={{ colorScheme: "light" }}>
+      <head>
+        <script
+          type="text/javascript"
+          src="https://assets.calendly.com/assets/external/widget.js"
+          async
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

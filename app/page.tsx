@@ -248,111 +248,6 @@ function _SplashProgressBar() {
   );
 }
 
-// AOL "You've Got Mail" notification
-function useAOLMail() {
-  const [show, setShow] = useState(false);
-  const shown = useRef(false);
-  useEffect(() => {
-    if (shown.current) return;
-    shown.current = true;
-    const t = setTimeout(() => setShow(true), 3200);
-    return () => clearTimeout(t);
-  }, []);
-  return { show, dismiss: () => setShow(false) };
-}
-
-function AOLMailPopup({ onDismiss }: { onDismiss: () => void }) {
-  return (
-    <div
-      className="win95-card fixed bottom-6 right-6 z-[9990] w-72"
-      style={{ boxShadow: "4px 4px 0 #000000" }}
-    >
-      <div className="title-bar flex justify-between items-center">
-        <span>📬 AOL Instant Messenger</span>
-        <button
-          onClick={onDismiss}
-          className="text-white px-1 text-xs"
-          style={{ background: "transparent", border: "1px solid #808080" }}
-        >X</button>
-      </div>
-      <div className="win95-content flex flex-col gap-2 text-center">
-        <div style={{ fontSize: 32 }}>📧</div>
-        <div className="font-black text-[16px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>
-          You&apos;ve Got Mail!
-        </div>
-        <div className="font-mono text-[11px] text-[#808080]">From: recruiter@company.com</div>
-        <div className="font-mono text-[11px]">&ldquo;Hey, we saw your portfolio...&rdquo;</div>
-        <div className="flex gap-2 justify-center mt-1">
-          <a href="mailto:Ishan.patel2807@gmail.com" className="btn-90s btn-90s-blue text-[11px] px-3" style={{ textDecoration: "none" }}>Read</a>
-          <button className="btn-90s text-[11px] px-3" onClick={onDismiss}>Later</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// AIM buddy sign-on
-function useAIMNotif() {
-  const [show, setShow] = useState(false);
-  const shown = useRef(false);
-  useEffect(() => {
-    if (shown.current) return;
-    shown.current = true;
-    const t = setTimeout(() => setShow(true), 7500);
-    return () => clearTimeout(t);
-  }, []);
-  return { show, dismiss: () => setShow(false) };
-}
-
-function AIMNotif({ onDismiss }: { onDismiss: () => void }) {
-  const [msg, setMsg] = useState("");
-
-  function handleIM() {
-    window.open("https://www.linkedin.com/in/ishanpatel09/", "_blank");
-    onDismiss();
-  }
-  function handleBlock() {
-    setMsg("CyberGuru2007 has been blocked.");
-    setTimeout(onDismiss, 1200);
-  }
-  function handleIgnore() {
-    setMsg("Message ignored. (it was a compliment tho)");
-    setTimeout(onDismiss, 1400);
-  }
-
-  return (
-    <div
-      className="win95-card fixed bottom-6 left-6 z-[9990]"
-      style={{ boxShadow: "4px 4px 0 #000000", fontFamily: '"MS Sans Serif", Tahoma, sans-serif', width: 260 }}
-    >
-      <div className="title-bar flex justify-between items-center">
-        <span style={{ fontWeight: 700, fontSize: 13 }}>💬 AIM</span>
-        <button
-          onClick={onDismiss}
-          className="text-white px-1"
-          style={{ background: "transparent", border: "1px solid #808080", fontSize: 11, lineHeight: 1.4 }}
-        >X</button>
-      </div>
-      <div className="win95-content flex flex-col gap-2" style={{ padding: "10px 12px" }}>
-        <div className="flex items-center gap-2">
-          <span style={{ fontSize: 18 }}>🟡</span>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: 13 }}>CyberGuru2007</div>
-            <div style={{ fontSize: 12, color: "#666" }}>has signed on.</div>
-          </div>
-        </div>
-        <div className="bevel-in p-2" style={{ background: "#fff", fontSize: 12 }}>
-          {msg || "CyberGuru2007: yo sick portfolio lol"}
-        </div>
-        <div className="flex gap-1">
-          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleIM}>IM</button>
-          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleBlock}>Block</button>
-          <button className="btn-90s flex-1" style={{ fontSize: 11, padding: "3px 0" }} onClick={handleIgnore}>Ignore</button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ============================================================
    EASTER EGGS
@@ -831,10 +726,8 @@ export default function Home() {
   const password = usePasswordPrompt();
   const shake = usePageShake();
   const agent = useAgentMode();
-  const [hireMeText, setHireMeText] = useState("► HIRE ME");
+  const [hireMeText, setHireMeText] = useState("► CONNECT WITH ME");
   const splash = useStartupSplash();
-  const aolMail = useAOLMail();
-  const aimNotif = useAIMNotif();
 
   useEffect(() => {
     fetch("/api/visitors")
@@ -1014,7 +907,7 @@ export default function Home() {
                     onClick={() => {
                       setHireMeText("YOU SURE? (Y/N)");
                       setTimeout(() => {
-                        setHireMeText("► HIRE ME");
+                        setHireMeText("► CONNECT WITH ME");
                         document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                       }, 1000);
                     }}
@@ -1492,7 +1385,7 @@ BUGS:
         <div className="win95-card">
           <TitleBar icon="📧">CONTACT | OPEN FOR OPPORTUNITIES</TitleBar>
           <div className="win95-content-yellow">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <h2
                   className="text-2xl uppercase mb-2"
@@ -1582,6 +1475,21 @@ BUGS:
                   ► CONNECT WITH ME NOW
                 </a>
               </div>
+            </div>
+
+            {/* Calendly inline widget */}
+            <div className="bevel-in" style={{ background: "#fff" }}>
+              <div
+                className="font-black uppercase text-[12px] p-2 border-b-2 border-[#808080]"
+                style={{ fontFamily: '"Arial Black", Impact, sans-serif', background: "#c0c0c0" }}
+              >
+                📅 SCHEDULE A MEETING
+              </div>
+              <div
+                className="calendly-inline-widget"
+                data-url="https://calendly.com/ishan-patel2807/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+                style={{ minWidth: 320, height: 700 }}
+              />
             </div>
           </div>
         </div>
@@ -1718,12 +1626,6 @@ BUGS:
 
     {/* Nostalgia: startup splash */}
     {splash.show && <StartupSplash />}
-
-    {/* Nostalgia: AOL mail popup */}
-    {aolMail.show && <AOLMailPopup onDismiss={aolMail.dismiss} />}
-
-    {/* Nostalgia: AIM buddy notification */}
-    {aimNotif.show && <AIMNotif onDismiss={aimNotif.dismiss} />}
 
     {/* Nuke overlays — outside main div so they're not hidden with it */}
     {nuke.phase === "exploding" && (
