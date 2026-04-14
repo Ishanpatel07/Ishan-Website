@@ -1477,7 +1477,7 @@ BUGS:
               </div>
             </div>
 
-            {/* Calendly popup link */}
+            {/* Calendly link */}
             <div className="bevel-out p-3 bg-[#c0c0c0] flex items-center gap-3">
               <span style={{ fontSize: 20 }}>📅</span>
               <div className="flex-1">
@@ -1488,12 +1488,9 @@ BUGS:
                   WANT TO CHAT? BOOK A SLOT:
                 </div>
                 <a
-                  href=""
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (window as any).Calendly?.initPopupWidget({ url: "https://calendly.com/ishan-patel2807/30min" });
-                  }}
+                  href="https://calendly.com/ishan-patel2807/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-90s btn-90s-blue text-[12px]"
                   style={{ textDecoration: "none", display: "inline-block" }}
                 >
