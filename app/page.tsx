@@ -1474,27 +1474,15 @@ BUGS:
                 >
                   ► CONNECT WITH ME NOW
                 </a>
-              </div>
-            </div>
 
-            {/* Calendly link */}
-            <div className="bevel-out p-3 bg-[#c0c0c0] flex items-center gap-3">
-              <span style={{ fontSize: 20 }}>📅</span>
-              <div className="flex-1">
-                <div
-                  className="font-black uppercase text-[12px] mb-1"
-                  style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
-                >
-                  WANT TO CHAT? BOOK A SLOT:
-                </div>
                 <a
                   href="https://calendly.com/ishan-patel2807/30min"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-90s btn-90s-blue text-[12px]"
-                  style={{ textDecoration: "none", display: "inline-block" }}
+                  className="btn-90s text-center w-full"
+                  style={{ textDecoration: "none", display: "block" }}
                 >
-                  📅 SCHEDULE TIME WITH ME
+                  📅 SCHEDULE A MEETING
                 </a>
               </div>
             </div>
