@@ -1479,8 +1479,25 @@ BUGS:
                   href="https://calendly.com/ishan-patel2807/30min"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-90s text-center w-full"
-                  style={{ textDecoration: "none", display: "block" }}
+                  className="text-center w-full"
+                  style={{
+                    textDecoration: "none",
+                    display: "block",
+                    background: "#006400",
+                    color: "#ffffff",
+                    border: "2px solid",
+                    borderColor: "#00aa00 #003200 #003200 #00aa00",
+                    boxShadow: "inset -1px -1px 0 #002200, inset 1px 1px 0 #00cc00, 0 0 8px rgba(0,200,0,0.4)",
+                    padding: "8px 12px",
+                    fontFamily: '"Arial Black", Impact, sans-serif',
+                    fontWeight: 900,
+                    fontSize: 13,
+                    letterSpacing: "0.05em",
+                    textTransform: "uppercase",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "#007a00")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "#006400")}
                 >
                   📅 SCHEDULE A MEETING
                 </a>
