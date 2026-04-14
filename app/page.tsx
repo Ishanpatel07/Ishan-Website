@@ -1477,19 +1477,29 @@ BUGS:
               </div>
             </div>
 
-            {/* Calendly inline widget */}
-            <div className="bevel-in" style={{ background: "#fff" }}>
-              <div
-                className="font-black uppercase text-[12px] p-2 border-b-2 border-[#808080]"
-                style={{ fontFamily: '"Arial Black", Impact, sans-serif', background: "#c0c0c0" }}
-              >
-                📅 SCHEDULE A MEETING
+            {/* Calendly popup link */}
+            <div className="bevel-out p-3 bg-[#c0c0c0] flex items-center gap-3">
+              <span style={{ fontSize: 20 }}>📅</span>
+              <div className="flex-1">
+                <div
+                  className="font-black uppercase text-[12px] mb-1"
+                  style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
+                >
+                  WANT TO CHAT? BOOK A SLOT:
+                </div>
+                <a
+                  href=""
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (window as any).Calendly?.initPopupWidget({ url: "https://calendly.com/ishan-patel2807/30min" });
+                  }}
+                  className="btn-90s btn-90s-blue text-[12px]"
+                  style={{ textDecoration: "none", display: "inline-block" }}
+                >
+                  📅 SCHEDULE TIME WITH ME
+                </a>
               </div>
-              <div
-                className="calendly-inline-widget"
-                data-url="https://calendly.com/ishan-patel2807/30min?hide_event_type_details=1&hide_gdpr_banner=1"
-                style={{ minWidth: 320, height: 700 }}
-              />
             </div>
           </div>
         </div>
