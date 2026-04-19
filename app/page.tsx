@@ -149,10 +149,13 @@ const SKILL_AUDIO: Record<string, string> = {
 
 function SkillRow({ label }: { label: string }) {
   const hasAudio = label in SKILL_AUDIO;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function play() {
     if (!hasAudio) return;
+    if (audioRef.current && !audioRef.current.paused) return;
     const audio = new Audio(SKILL_AUDIO[label]);
+    audioRef.current = audio;
     audio.play().catch(() => {});
   }
 
@@ -1403,7 +1406,7 @@ BUGS:
                     { icon: "📧", label: "EMAIL", value: "Ishan.patel2807@gmail.com", href: "mailto:Ishan.patel2807@gmail.com" },
                     { icon: "🔗", label: "LINKEDIN", value: "linkedin.com/in/ishanpatel09", href: "https://www.linkedin.com/in/ishanpatel09/" },
                     { icon: "🐙", label: "GITHUB", value: "github.com/Ishanpatel07", href: "https://github.com/Ishanpatel07" },
-                    { icon: "📱", label: "PHONE", value: "(470) 561-5682", href: "tel:4705615682" },
+                    { icon: "☕", label: "CALENDLY", value: "Coffee Chat →", href: "https://calendly.com/ishan-patel2807/30min" },
                   ].map((link) => (
                     <div key={link.label} className="flex items-center gap-2 text-[13px] bevel-in p-2 bg-white">
                       <span className="text-[16px]">{link.icon}</span>
@@ -1504,6 +1507,11 @@ BUGS:
               </div>
             </div>
           </div>
+          <div className="px-4 pb-3 pt-1">
+            <p className="font-mono text-[10px]" style={{ color: "#808080" }}>
+              This site uses a visitor counter. No personal data is collected or stored.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -1539,6 +1547,12 @@ BUGS:
             style={{ color: "#aaaaff" }}
           >
             🌐 Best viewed in Internet Explorer 6.0 @ 800×600
+          </span>
+          <span
+            className="font-mono text-[10px]"
+            style={{ color: "#aaaaff" }}
+          >
+            Last Updated: April 2026
           </span>
         </div>
       </footer>
@@ -1661,7 +1675,7 @@ BUGS:
             This site can&apos;t be reached
           </div>
           <div style={{ fontSize: 15, color: "#555", marginBottom: 20 }}>
-            <strong>ishanpatel.dev</strong> refused to connect.
+            <strong>ishanp.me</strong> refused to connect.
           </div>
           <div style={{ background: "#fff", border: "1px solid #ddd", borderRadius: 4, padding: "12px 16px", fontSize: 13, color: "#444", marginBottom: 16 }}>
             Try:<br />
@@ -1671,7 +1685,7 @@ BUGS:
             </ul>
           </div>
           <div style={{ fontSize: 12, color: "#999", fontFamily: "monospace" }}>
-            ERR_CONNECTION_REFUSED — ishanpatel.dev took too long to respond.
+            ERR_CONNECTION_REFUSED — ishanp.me took too long to respond.
           </div>
           <div style={{ fontSize: 11, color: "#bbb", marginTop: 8, fontFamily: "monospace" }}>
             (you pressed the button. this is on you.)
