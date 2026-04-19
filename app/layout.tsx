@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Ishan Patel — Cybersecurity Portfolio",
   description:
     "Computer Information Systems student concentrating in Cybersecurity. Seeking cyber internships and a career in Sales Engineering.",
+  metadataBase: new URL("https://ishanp.me"),
 };
 
 export default function RootLayout({

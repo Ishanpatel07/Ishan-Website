@@ -366,6 +366,10 @@ p, pre, span, li, h1, h2, h3, h4, h5, h6, a {
   user-select: text;
 }
 
+/* Hide scrollbar utility (for horizontal scroll containers on mobile) */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* Win95 scrollbar */
 ::-webkit-scrollbar { width: 16px; height: 16px; }
 ::-webkit-scrollbar-track { background: #c0c0c0; }

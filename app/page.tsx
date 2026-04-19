@@ -643,13 +643,13 @@ function AnimatedName() {
     <div className="flex flex-col items-center gap-2">
       <audio ref={audioRef} src="/star-theme.mp3" loop />
       <h1
-        className="text-5xl leading-none uppercase tracking-tight whitespace-nowrap"
+        className="text-3xl sm:text-5xl leading-none uppercase tracking-tight"
         style={{
           fontFamily: '"Arial Black", Impact, sans-serif',
           textShadow: starMode ? undefined : "3px 3px 0 #808080",
           animation: starMode ? "mario-star 1.2s linear infinite" : undefined,
-          minWidth: "14ch",
           display: "inline-block",
+          wordBreak: "keep-all",
         }}
       >
         {displayed}
@@ -806,10 +806,10 @@ export default function Home() {
         className="bevel-out border-b-2 border-[#000000]"
         style={{ background: "#c0c0c0" }}
       >
-        <div className="max-w-7xl mx-auto flex items-center gap-1 px-6 py-2 flex-wrap">
+        <div className="max-w-7xl mx-auto flex items-center gap-1 px-3 sm:px-6 py-2 flex-wrap">
           <a
             href="/"
-            className="font-black text-[13px] uppercase mr-4"
+            className="font-black text-[12px] sm:text-[13px] uppercase mr-2 sm:mr-4"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', textDecoration: "none", color: "inherit" }}
           >
             ISHAN PATEL
@@ -818,7 +818,7 @@ export default function Home() {
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="btn-90s text-[12px] px-3 py-1"
+              className="btn-90s text-[10px] sm:text-[12px] px-2 sm:px-3 py-0.5 sm:py-1"
               style={{ textDecoration: "none" }}
             >
               {item}
@@ -833,7 +833,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════
           HERO SECTION
           ══════════════════════════════════════════════════════ */}
-      <section id="about" className="max-w-7xl mx-auto px-6 py-8">
+      <section id="about" className="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8">
         <div className="flex flex-col md:flex-row gap-4 items-start">
 
           {/* Left column: bio card + readme */}
@@ -1041,7 +1041,7 @@ BUGS:
         className="border-y-2 border-[#000000]"
         style={{ background: "#000000" }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-wrap items-center gap-4 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-3 sm:gap-4 overflow-x-auto scrollbar-hide">
           {[
             { label: "FIREWALL", value: firewall.breached ? "BREACHED" : "ACTIVE", color: firewall.breached ? "#ff0000" : "#00ff00", clickable: true },
             { label: "ENCRYPTION", value: "AES-256",  color: "#00ff00" },
@@ -1078,7 +1078,7 @@ BUGS:
       {/* ══════════════════════════════════════════════════════
           SKILLS
           ══════════════════════════════════════════════════════ */}
-      <section id="skills" className="max-w-7xl mx-auto px-6 py-8">
+      <section id="skills" className="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8">
 
         <div className="flex items-center gap-3 mb-3">
           <h2
@@ -1150,7 +1150,7 @@ BUGS:
       {/* ══════════════════════════════════════════════════════
           PROJECTS
           ══════════════════════════════════════════════════════ */}
-      <section id="projects" className="max-w-7xl mx-auto px-6 py-8">
+      <section id="projects" className="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8">
         <div className="flex items-center gap-3 mb-3">
           <h2
             className="text-3xl uppercase tracking-tight"
@@ -1215,7 +1215,7 @@ BUGS:
       {/* ══════════════════════════════════════════════════════
           EXPERIENCE
           ══════════════════════════════════════════════════════ */}
-      <section id="experience" className="max-w-7xl mx-auto px-6 py-8">
+      <section id="experience" className="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8">
 
         <div className="flex items-center gap-3 mb-3">
           <h2
@@ -1383,7 +1383,7 @@ BUGS:
 
       <section
         id="contact"
-        className="max-w-7xl mx-auto px-6 py-8"
+        className="max-w-7xl mx-auto px-3 sm:px-6 py-5 sm:py-8"
       >
         <div className="win95-card">
           <TitleBar icon="📧">CONTACT | OPEN FOR OPPORTUNITIES</TitleBar>
@@ -1440,7 +1440,7 @@ BUGS:
                     ► PART-TIME: OPEN
                   </div>
                   <div className="text-[#00ff00] font-mono mb-1">
-                    ► START DATE: MAY 2025
+                    ► START DATE: SUMMER 2025
                   </div>
                   <div className="text-[#808080] font-mono text-[11px] mt-2">
                     LAST UPDATED: 04/09/2026
@@ -1524,7 +1524,7 @@ BUGS:
         className="border-t-2 border-[#000000]"
         style={{ background: "#000080" }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2">
           <span
             className="font-black uppercase text-[12px] footer-secret"
             style={{ fontFamily: '"Arial Black", Impact, sans-serif', cursor: "pointer" }}
