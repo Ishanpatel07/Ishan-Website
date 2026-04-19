@@ -21,13 +21,13 @@ const experience = [
     role: "Director of Finance",
     company: "PROGSU",
     companyHref: "https://www.progsu.com",
-    companySuffix: " | Programming Club at Georgia State University",
-    period: "January 2026 – Present",
+    companySuffix: "",
+    period: "Jan 2026 - Present",
     hacklanta: true,
     bullets: [
-      "Helped organize Hacklanta 2026, GSU's flagship 24-hour hackathon with 350-400+ attendees, one of the largest student-run hackathons in the Southeast",
-      "Handled all bookkeeping, budgeting, and financial tracking for the organization",
-      "Managed sponsor payment tracking and post-event financial reconciliation across 8+ corporate partners",
+      "Co-organized Hacklanta 2026, GSU's flagship 24-hour hackathon: 400+ attendees, one of the largest student-run hackathons in the Southeast",
+      "Owned all bookkeeping, budgeting, and financial tracking for PROGSU",
+      "Tracked sponsor payments and reconciled post-event finances across 8+ corporate partners",
     ],
   },
   {
@@ -35,12 +35,11 @@ const experience = [
     company: "Vixa Labs",
     companyHref: "",
     companySuffix: "",
-    period: "August 2024 – Present",
+    period: "Aug 2024 - Present",
     hacklanta: false,
     bullets: [
-      "Ran outbound sales campaigns including cold calling and lead generation",
-      "Qualified prospects and refined outreach scripts using conversion data",
-      "Contributed to new customer acquisition and pipeline growth",
+      "Ran outbound sales campaigns: 100+ cold calls, lead generation, and prospect qualification",
+      "Refined outreach scripts using conversion data, improving connect rates",
     ],
   },
 ];
@@ -61,7 +60,7 @@ const projects = [
   {
     name: "Hacklanta 2026",
     type: "Event / Operations",
-    desc: "Helped organize GSU's flagship 24-hour hackathon. 350–400+ attendees, 8+ corporate sponsors, casino-style side events (Blackjack, Roulette, Texas Hold'em). Handled all finance, bookkeeping, and floated across operations wherever needed.",
+    desc: "Co-organized GSU's flagship 24-hour hackathon. 400+ attendees, 8+ corporate sponsors, casino-style side events. Owned all finance and bookkeeping.",
     tag: "SHIPPED" as const,
     href: "https://hacklanta.dev/archive/spring26",
   },
@@ -781,13 +780,10 @@ export default function Home() {
       >
         <Marquee speed={45} gradient={false} pauseOnHover>
           <span className="mx-6 text-[#ffff00] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-            ★ AVAILABLE FOR CYBER INTERNSHIPS
+            ★ OPEN TO CYBERSECURITY INTERNSHIPS
           </span>
           <span className="mx-6 text-[#00ff00] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
             ★ CIS @ GEORGIA STATE | CYBERSECURITY CONCENTRATION
-          </span>
-          <span className="mx-6 text-[#ff0000] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
-            ★ SEEKING CYBERSECURITY INTERNSHIP
           </span>
           <span className="mx-6 text-[#ffffff] font-black text-sm uppercase tracking-widest" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>
             ★ COMPTIA SECURITY+ | EXPECTED JUNE 2026
@@ -841,7 +837,7 @@ export default function Home() {
 
             {/* Bio card */}
             <div className="win95-card">
-              <TitleBar icon="🖥️">ISHAN_PATEL.EXE | CYBERSECURITY PORTFOLIO v1.0</TitleBar>
+              <TitleBar icon="🖥️">ISHAN_PATEL.EXE</TitleBar>
               <div className="win95-content-yellow flex flex-col gap-2">
                 <div className="text-center">
                   <AnimatedName />
@@ -876,10 +872,10 @@ export default function Home() {
                 {/* At-a-glance highlights */}
                 <div className="grid grid-cols-2 gap-1.5">
                   {[
-                    { icon: "🏅", label: "CERTIFIED", text: "ISC2 CC — earned" },
-                    { icon: "📋", label: "IN PROGRESS", text: "CompTIA Security+" },
-                    { icon: "🎯", label: "ORGANIZED", text: "Hacklanta 2026, 400+ ppl" },
-                    { icon: "📞", label: "SALES", text: "100+ cold calls, real pipeline" },
+                    { icon: "🏅", label: "ISC2 CC", text: "Certified in Cybersecurity" },
+                    { icon: "🔐", label: "SECURITY+", text: "Expected June 2026" },
+                    { icon: "🎯", label: "HACKLANTA", text: "400+ attendees, 8 sponsors" },
+                    { icon: "📞", label: "SALES", text: "100+ cold calls, live pipeline" },
                   ].map((item) => (
                     <div key={item.text} className="bevel-in px-2 py-1.5" style={{ background: "#fff" }}>
                       <div className="flex items-center gap-1 mb-0.5">
@@ -892,11 +888,7 @@ export default function Home() {
                 </div>
 
                 <p className="text-[14px] leading-6">
-                  Freshman at <strong>Georgia State University</strong> — CIS major,{" "}
-                  <strong>Cybersecurity concentration</strong>, CS minor. Targeting transfer to{" "}
-                  <strong>Georgia Tech</strong>. Real-world experience in{" "}
-                  <strong>sales, e-commerce, and event operations</strong>. Built things, sold things, organized things. Now looking to break into{" "}
-                  <strong>cybersecurity</strong>.
+                  <strong>ISC2 Certified</strong> freshman at <strong>Georgia State University</strong>, CIS major with a <strong>Cybersecurity concentration</strong>. Targeting transfer to <strong>Georgia Tech</strong>. Real-world background in sales, e-commerce, and event ops. Now breaking into cyber full-time.
                 </p>
 
                 <p className="text-[12px] leading-5 font-mono" style={{ color: "#808080" }}>
@@ -1319,17 +1311,12 @@ BUGS:
               >
                 SALES ENGINEER | CYBERSECURITY
               </div>
-              <div className="text-[13px] leading-5 mb-3">
-                Combining deep technical knowledge in cybersecurity with strong
-                communication skills to help organizations understand and deploy
-                security solutions.
-              </div>
               <div className="hr-groove mb-3" />
               <div
                 className="text-[12px] font-black uppercase mb-1"
                 style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
               >
-                ■ Why Sales Engineering?
+                ■ Why SE?
               </div>
               <ul className="list-none p-0 m-0 text-[12px]">
                 {[
@@ -1397,9 +1384,7 @@ BUGS:
                   LET&apos;S CONNECT
                 </h2>
                 <p className="text-[13px] leading-5 mb-2">
-                  Looking for a <strong>cyber intern</strong> who can hit the ground
-                  running? I bring hands-on lab experience, a security-first mindset,
-                  and the communication skills to explain threats to any audience.
+                  <strong>ISC2 certified, Security+ in progress.</strong> I have real sales experience, know how to talk to people, and I am actively building in cyber. Open to internships, part-time, and coffee chats.
                 </p>
                 <div className="flex flex-col gap-2">
                   {[
