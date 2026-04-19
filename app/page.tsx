@@ -838,13 +838,71 @@ export default function Home() {
             {/* Bio card */}
             <div className="win95-card">
               <TitleBar icon="🖥️">ISHAN_PATEL.EXE</TitleBar>
-              <div className="win95-content-yellow flex flex-col gap-2">
-                <div className="text-center">
+              <div className="win95-content-yellow flex flex-col gap-3">
+
+                {/* Name + primary CTA — top priority */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <AnimatedName />
+                  <div className="flex gap-2 flex-wrap">
+                    <button
+                      className="btn-90s btn-90s-blue"
+                      onClick={() => {
+                        setHireMeText("YOU SURE? (Y/N)");
+                        setTimeout(() => {
+                          setHireMeText("► CONNECT WITH ME");
+                          document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                        }, 1000);
+                      }}
+                    >
+                      {hireMeText}
+                    </button>
+                    <a
+                      href="mailto:Ishan.patel2807@gmail.com"
+                      className="btn-90s"
+                      style={{ textDecoration: "none" }}
+                    >
+                      EMAIL ME
+                    </a>
+                  </div>
                 </div>
 
-                <div className="flex gap-2 flex-wrap">
-                  <Badge label="NEW" pulse bounce />
+                <div className="hr-groove" />
+
+                {/* Credentials row — most important facts */}
+                <div className="grid grid-cols-2 gap-1.5">
+                  {[
+                    { icon: "🏅", label: "ISC2 CC", text: "Certified in Cybersecurity", highlight: true },
+                    { icon: "🔐", label: "SECURITY+", text: "Expected June 2026", highlight: false },
+                    { icon: "🎯", label: "HACKLANTA", text: "400+ attendees, 8 sponsors", highlight: false },
+                    { icon: "📞", label: "SALES", text: "100+ cold calls, live pipeline", highlight: false },
+                  ].map((item) => (
+                    <div
+                      key={item.text}
+                      className="bevel-in px-2 py-2"
+                      style={{ background: item.highlight ? "#e8f0ff" : "#fff", borderColor: item.highlight ? "#000080 #c0c0c0 #c0c0c0 #000080" : undefined }}
+                    >
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <span style={{ fontSize: 13 }}>{item.icon}</span>
+                        <span className="text-[10px] font-black uppercase tracking-wide" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: item.highlight ? "#000080" : "#808080" }}>{item.label}</span>
+                      </div>
+                      <div className="text-[12px] font-black leading-tight" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: item.highlight ? "#000080" : "#000000" }}>{item.text}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Bio */}
+                <p className="text-[14px] leading-6">
+                  <strong>ISC2 Certified</strong> freshman at <strong>Georgia State University</strong>, CIS major with a <strong>Cybersecurity concentration</strong>. Targeting transfer to <strong>Georgia Tech</strong>. Real-world background in sales, e-commerce, and event ops. Now breaking into cyber full-time.
+                </p>
+
+                <p className="text-[12px] leading-5 font-mono" style={{ color: "#808080" }}>
+                  <span className="text-[#00aa00] font-black">C:\&gt;</span>{" "}
+                  Currently: homelab, Security+, and cold emailing people way above my level.
+                </p>
+
+                {/* Status badges */}
+                <div className="flex gap-2 flex-wrap items-center">
+                  <Badge label="OPEN TO WORK" pulse bounce />
                   <span
                     className="inline-block px-2 py-0 text-[11px] font-black uppercase text-white leading-5"
                     style={{
@@ -854,7 +912,7 @@ export default function Home() {
                       borderColor: "#5555ff #000060 #000060 #5555ff",
                     }}
                   >
-                    CIS STUDENT
+                    CIS @ GSU
                   </span>
                   <span
                     className="inline-block px-2 py-0 text-[11px] font-black uppercase text-black leading-5"
@@ -867,55 +925,6 @@ export default function Home() {
                   >
                     CYBER FOCUS
                   </span>
-                </div>
-
-                {/* At-a-glance highlights */}
-                <div className="grid grid-cols-2 gap-1.5">
-                  {[
-                    { icon: "🏅", label: "ISC2 CC", text: "Certified in Cybersecurity" },
-                    { icon: "🔐", label: "SECURITY+", text: "Expected June 2026" },
-                    { icon: "🎯", label: "HACKLANTA", text: "400+ attendees, 8 sponsors" },
-                    { icon: "📞", label: "SALES", text: "100+ cold calls, live pipeline" },
-                  ].map((item) => (
-                    <div key={item.text} className="bevel-in px-2 py-1.5" style={{ background: "#fff" }}>
-                      <div className="flex items-center gap-1 mb-0.5">
-                        <span style={{ fontSize: 12 }}>{item.icon}</span>
-                        <span className="text-[9px] font-black uppercase tracking-wide" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>{item.label}</span>
-                      </div>
-                      <div className="text-[12px] font-black leading-tight" style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}>{item.text}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="text-[14px] leading-6">
-                  <strong>ISC2 Certified</strong> freshman at <strong>Georgia State University</strong>, CIS major with a <strong>Cybersecurity concentration</strong>. Targeting transfer to <strong>Georgia Tech</strong>. Real-world background in sales, e-commerce, and event ops. Now breaking into cyber full-time.
-                </p>
-
-                <p className="text-[12px] leading-5 font-mono" style={{ color: "#808080" }}>
-                  <span className="text-[#00aa00] font-black">C:\&gt;</span>{" "}
-                  Currently: homelab, Security+, and cold emailing people way above my level.
-                </p>
-
-                <div className="flex gap-2 flex-wrap">
-                  <button
-                    className="btn-90s btn-90s-blue"
-                    onClick={() => {
-                      setHireMeText("YOU SURE? (Y/N)");
-                      setTimeout(() => {
-                        setHireMeText("► CONNECT WITH ME");
-                        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-                      }, 1000);
-                    }}
-                  >
-                    {hireMeText}
-                  </button>
-                  <a
-                    href="mailto:Ishan.patel2807@gmail.com"
-                    className="btn-90s"
-                    style={{ textDecoration: "none" }}
-                  >
-                    EMAIL ME
-                  </a>
                 </div>
               </div>
             </div>
@@ -963,27 +972,22 @@ BUGS:
           {/* Side panel */}
           <div className="w-full md:flex-[1] flex flex-col gap-3">
 
-            {/* Hit counter */}
+            {/* Quick stats — real numbers first */}
             <div className="win95-card">
-              <TitleBar icon="📊">SYSTEM STATUS</TitleBar>
-              <div className="hit-counter">
-                <div className="counter-text text-[#00ff00] font-mono text-sm mb-1">
-                  ■ ONLINE SINCE: 2007
-                </div>
-                <div
-                  className="text-[#00ff00] font-mono text-sm mb-1"
-                  style={{ cursor: "pointer" }}
-                  onClick={counterHack.trigger}
-                  title="click me..."
-                >
-                  ■ VISITORS: {visitorCount ?? "LOADING..."}
-                </div>
-                <div className="text-[#ffff00] font-mono text-sm mb-1">
-                  ■ STATUS: SEEKING INTERN
-                </div>
-                <div className="text-[#ff0000] font-mono text-sm">
-                  ■ THREAT LVL: ELITE
-                </div>
+              <TitleBar icon="🔢">QUICK STATS.EXE</TitleBar>
+              <div className="win95-content p-0">
+                {stats.map((s, i) => (
+                  <div
+                    key={i}
+                    className="flex justify-between items-center px-3 py-2 border-b border-[#808080]"
+                    style={{ background: i % 2 === 0 ? "#ffffff" : "#e8e8e8" }}
+                  >
+                    <span className="font-black uppercase text-[11px]" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#808080" }}>
+                      {s.label}
+                    </span>
+                    <span className="font-black text-[18px]" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>{s.value}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -1004,24 +1008,27 @@ BUGS:
               </div>
             </div>
 
-            {/* Quick stats */}
+            {/* System status gag */}
             <div className="win95-card">
-              <TitleBar icon="🔢">QUICK STATS.EXE</TitleBar>
-              <div className="win95-content p-0">
-                {stats.map((s, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center px-2 py-1 border-b border-[#808080] text-[12px] font-mono"
-                    style={{
-                      background: i % 2 === 0 ? "#ffffff" : "#e8e8e8",
-                    }}
-                  >
-                    <span className="font-black uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', fontSize: "11px" }}>
-                      {s.label}
-                    </span>
-                    <span className="text-[#000080] font-black">{s.value}</span>
-                  </div>
-                ))}
+              <TitleBar icon="📊">SYSTEM STATUS</TitleBar>
+              <div className="hit-counter">
+                <div className="counter-text text-[#00ff00] font-mono text-sm mb-1">
+                  ■ ONLINE SINCE: 2007
+                </div>
+                <div
+                  className="text-[#00ff00] font-mono text-sm mb-1"
+                  style={{ cursor: "pointer" }}
+                  onClick={counterHack.trigger}
+                  title="click me..."
+                >
+                  ■ VISITORS: {visitorCount ?? "LOADING..."}
+                </div>
+                <div className="text-[#ffff00] font-mono text-sm mb-1">
+                  ■ STATUS: SEEKING INTERN
+                </div>
+                <div className="text-[#ff0000] font-mono text-sm">
+                  ■ THREAT LVL: ELITE
+                </div>
               </div>
             </div>
           </div>
@@ -1211,13 +1218,14 @@ BUGS:
 
         <div className="flex items-center gap-3 mb-3">
           <h2
-            className="text-3xl uppercase tracking-tight"
-            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080", cursor: "pointer" }}
+            className="text-4xl uppercase tracking-tight"
+            style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "3px 3px 0 #808080", cursor: "pointer" }}
             onDoubleClick={shake.trigger}
             title="try double clicking..."
           >
             EXPERIENCE
           </h2>
+          <Badge label="LIVE" pulse />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1241,8 +1249,8 @@ BUGS:
                   {exp.companySuffix}
                 </TitleBar>
                 <div className="win95-content">
-                  <div className="flex justify-between items-start mb-2 flex-wrap gap-2">
-                    <span className="font-mono text-[12px] text-[#808080]">
+                  <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
+                    <span className="font-black text-[13px] uppercase" style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: "#000080" }}>
                       {exp.period}
                     </span>
                     {exp.hacklanta && (
@@ -1254,7 +1262,7 @@ BUGS:
                   <ul className="list-none p-0 m-0">
                     {exp.bullets.map((b, j) => (
                       <li key={j} className="text-[14px] leading-6 mb-2 flex gap-2">
-                        <span className="text-[#00aa00] font-black mt-0.5">►</span>
+                        <span className="text-[#000080] font-black mt-0.5 shrink-0">►</span>
                         <span>{b}</span>
                       </li>
                     ))}
@@ -1377,31 +1385,44 @@ BUGS:
           <div className="win95-content-yellow">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <h2
-                  className="text-2xl uppercase mb-2"
-                  style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
-                >
-                  LET&apos;S CONNECT
-                </h2>
-                <p className="text-[13px] leading-5 mb-2">
-                  <strong>ISC2 certified, Security+ in progress.</strong> I have real sales experience, know how to talk to people, and I am actively building in cyber. Open to internships, part-time, and coffee chats.
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h2
+                    className="text-3xl uppercase"
+                    style={{ fontFamily: '"Arial Black", Impact, sans-serif', textShadow: "2px 2px 0 #808080" }}
+                  >
+                    LET&apos;S CONNECT
+                  </h2>
+                  <Badge label="OPEN TO WORK" pulse />
+                </div>
+                <p className="text-[13px] leading-5 mb-3">
+                  <strong>ISC2 certified, Security+ in progress.</strong> Real sales experience, real pipeline, actively building in cyber. Open to internships, part-time, and coffee chats.
                 </p>
                 <div className="flex flex-col gap-2">
                   {[
-                    { icon: "📧", label: "EMAIL", value: "Ishan.patel2807@gmail.com", href: "mailto:Ishan.patel2807@gmail.com" },
-                    { icon: "🔗", label: "LINKEDIN", value: "linkedin.com/in/ishanpatel09", href: "https://www.linkedin.com/in/ishanpatel09/" },
-                    { icon: "🐙", label: "GITHUB", value: "github.com/Ishanpatel07", href: "https://github.com/Ishanpatel07" },
-                    { icon: "☕", label: "CALENDLY", value: "Coffee Chat →", href: "https://calendly.com/ishan-patel2807/30min" },
+                    { icon: "📧", label: "EMAIL", value: "Ishan.patel2807@gmail.com", href: "mailto:Ishan.patel2807@gmail.com", primary: true },
+                    { icon: "☕", label: "COFFEE CHAT", value: "Schedule 30 min →", href: "https://calendly.com/ishan-patel2807/30min", primary: true },
+                    { icon: "🔗", label: "LINKEDIN", value: "linkedin.com/in/ishanpatel09", href: "https://www.linkedin.com/in/ishanpatel09/", primary: false },
+                    { icon: "🐙", label: "GITHUB", value: "github.com/Ishanpatel07", href: "https://github.com/Ishanpatel07", primary: false },
                   ].map((link) => (
-                    <div key={link.label} className="flex items-center gap-2 text-[13px] bevel-in p-2 bg-white">
-                      <span className="text-[16px]">{link.icon}</span>
+                    <div
+                      key={link.label}
+                      className="flex items-center gap-2 bevel-in p-2"
+                      style={{ background: link.primary ? "#e8f0ff" : "#fff", borderLeft: link.primary ? "3px solid #000080" : undefined }}
+                    >
+                      <span className="text-[18px]">{link.icon}</span>
                       <span
-                        className="font-black uppercase text-[11px] w-20 shrink-0"
-                        style={{ fontFamily: '"Arial Black", Impact, sans-serif' }}
+                        className="font-black uppercase text-[11px] w-24 shrink-0"
+                        style={{ fontFamily: '"Arial Black", Impact, sans-serif', color: link.primary ? "#000080" : "#000000" }}
                       >
                         {link.label}:
                       </span>
-                      <a href={link.href} className="text-[#0000ff] underline hover:text-[#ff0000]" target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={link.href}
+                        className="text-[#0000ff] underline hover:text-[#ff0000] text-[13px] font-black"
+                        style={{ fontFamily: link.primary ? '"Arial Black", Impact, sans-serif' : undefined }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {link.value}
                       </a>
                     </div>
